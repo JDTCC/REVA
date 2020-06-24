@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2010 (http://www.altova.com) by Kadaster (Kadaster) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:bc-ado="http://www.kadaster.nl/schemas/bag-verstrekkingen/compact-producten-lvc/v20110901" xmlns:bc_ado_LVC="http://www.kadaster.nl/schemas/imbag-compact/lvc/v20110901" xmlns:gml="http://www.opengis.net/gml" xmlns:bagtype="http://www.kadaster.nl/schemas/imbag/imbag-types/v20110901" targetNamespace="http://www.kadaster.nl/schemas/bag-verstrekkingen/compact-producten-lvc/v20110901" elementFormDefault="qualified" attributeFormDefault="unqualified" version="0.8">
+	<xs:import namespace="http://www.opengis.net/gml" schemaLocation="../../../imbag/gml/bag-gml.xsd"/>
+	<xs:import namespace="http://www.kadaster.nl/schemas/imbag/imbag-types/v20110901" schemaLocation="../../../imbag/imbag-types/v20110901/BagvsImbagOnderdelen-0.8.xsd"/>
+	<xs:annotation>
+		<xs:documentation>Dit schema definieert een product van BAG Compact, te weten een uitbreiding van een BCAdres met geometrie. De uitbreiding loopt via een koppeling op basis van de identificatie van een adresseerbaar object. </xs:documentation>
+	</xs:annotation>
+	<xs:element name="BCAdresseerbaarObjectGeoProduct" type="bc-ado:BCAdresseerbaarObjectGeoProduct">
+		<xs:annotation>
+			<xs:documentation>Onderdeel van het product BAG Compact, te weten een uitbreiding van een BCAdres met geometrie.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="BCAdresseerbaarObjectGeoProduct">
+		<xs:sequence>
+			<xs:element ref="bc-ado:BCAdresseerbaarObjectGeoPunt2D" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="BCAdresseerbaarObjectGeoPunt2D" type="bc-ado:BCAdresseerbaarObjectGeoPunt2D">
+		<xs:annotation>
+			<xs:documentation>Het 2D punt geometrie van een ligplaats, verblijfsobject of standplaats. Dit 2D punt is afgeleidt van de geometrie van het adresseerbaar object in de BAG. De puntgeometrie 2D komt overeen met de X en Y coordinaat uit het product BCAdres. </xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="BCAdresseerbaarObjectGeoPunt2D">
+		<xs:annotation>
+			<xs:documentation>Gebruikt uit GML is alleen het type Point, 2D. Geodefinitie: srsName="urn:ogc:def:crs:EPSG::28992</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="identificatie" type="bagtype:Objectnummer">
+				<xs:annotation>
+					<xs:documentation>De unieke aanduiding van een LIGPLAATS, STANDPLAATS of VERBLIJFSOBJECT.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="gml:Point"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

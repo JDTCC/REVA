@@ -1,0 +1,36 @@
+<html>
+	<head>
+		<title>Reva home page</title>
+	</head>
+	<body>
+		<div id="content">
+			<wicket:extend>
+				<h1>Taak details</h1>
+				<h2>Taak gegevens:</h2>
+				<form wicket:id="nieuweTaakFormulier">
+					<div class="line">
+						<label for="naam"><wicket:message key="naam.label" /></label>
+						<span class="value"><input wicket:id="naam" type="text"></input></span>
+					</div>
+					<div class="line">
+						<label for="vanafDatum"><wicket:message key="vanafDatum.label" /></label>
+						<span class="value"><input wicket:id="vanafDatum" type="text"></input></span>
+	
+						<label for="totenmetDatum"><wicket:message key="totenmetDatum.label" /></label>
+						<span class="value"><input wicket:id="totenmetDatum" type="text"></input></span>
+	
+						<label for="postcode"><wicket:message key="postcode.label" /></label>
+						<span class="value"><input wicket:id="postcode" type="text"></input></span>
+	
+						<label for="huisnummer"><wicket:message key="huisnummer.label" /></label>
+						<span class="value"><input wicket:id="huisnummer" type="text"></input></span>
+					</div>
+					<p>
+						<input type="submit" class="btn" wicket:id="annuleren" wicket:message="value:annuleren.label"/>
+						<input type="submit" class="btn" wicket:id="bewaren" wicket:message="value:bewaren.label"/>
+					</p>
+				</form>
+			</wicket:extend>
+		</div>
+	</body>
+</html>

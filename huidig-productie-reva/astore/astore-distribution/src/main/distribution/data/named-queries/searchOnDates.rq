@@ -1,0 +1,67 @@
+#!Freemarker 
+# This query returns a resultset containing only annotation tree details 
+# that match the date search criteria. This resultset is used to 
+# populate the BLT search overview.
+#
+# Required Parameters(one of these is required):
+#   vanafDatum       search from a specific date.
+#   totenmetDatum    search to a specific date
+#
+# Optional parameters:
+#   limit           the maximum number of results to return
+#   offset          the offset in the total result set from where to start the 
+#                   returned results.
+#
+# REMARK:
+#   The parameters 'stamColumnName' and 'stamIndexName' can be ignored safely  
+#   when executing this query. They are used by the AStore framework:
+#     'stamColumnName'  Will be replaced with the column name used by the
+#                       framework. This column name tells the framework to
+#                       replace the resultset with a set of annotation trees.
+#     'stamIndexName'   Will be replaced with the actual index name used
+#                       by the framework. This name is configuration hence
+#                       the need to use a parameter.
+#
+
+PREFIX oa:   <http://www.w3.org/ns/openannotation/communitydraft/core/>
+PREFIX ap:   <http://standaarden.overheid.nl/archipelago/v0-0-0-2/>  
+PREFIX dm:   <http://standaarden.overheid.nl/digimelding/v2-0-0-1/>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?${stamColumnName} ?tijdstempelAanlevering ?tijdDate
+WHERE { 
+  GRAPH ?stamUri {
+	# Determine root element in graph
+    ?root rdf:type ap:BevindingAnnotatie ;
+      oa:annotatedAt ?tijdstempelAanlevering ;
+      oa:annotatedBy ?persoon ;
+      ap:hasTarget ?target ;
+      ap:hasBody ?body .
+  
+    # Zoeken op 'vanafDatum' en/of 'totenmetDatum'
+	
+	<#if (vanafDatum??) || (totenmetDatum??)>
+      FILTER (
+        <#if (vanafDatum??)>
+          (strdt(?tijdstempelAanlevering, xsd:dateTime)  >= "${vanafDatum}"^^xsd:dateTime)
+        </#if>
+        <#if (vanafDatum??) && (totenmetDatum??)>
+          &&
+        </#if>
+        <#if (totenmetDatum??)>
+          (strdt(?tijdstempelAanlevering, xsd:dateTime)  <= "${totenmetDatum}"^^xsd:dateTime)
+        </#if>
+      ) .
+	  BIND( strdt(?tijdstempelAanlevering, xsd:dateTime) AS ?tijdDate )
+    </#if>
+  }
+  GRAPH <${stamIndexName}> {
+    ?stamUri rdf:type <http://digimelding.nl/AStore/Stam> 
+	
+	BIND( SUBSTR( str(?stamUri), 10) AS ?${stamColumnName} )
+  }
+}
+ORDER by DESC(?tijdstempelAanlevering)
+LIMIT ${limit} OFFSET ${offset}

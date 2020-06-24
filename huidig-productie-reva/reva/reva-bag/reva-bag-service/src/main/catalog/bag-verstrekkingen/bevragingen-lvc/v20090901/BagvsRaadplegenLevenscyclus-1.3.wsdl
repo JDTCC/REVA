@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions
+	xmlns:bagVsLvc="http://www.kadaster.nl/schemas/bag-verstrekkingen/bevragingen-lvc/v20090901"
+	xmlns="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:antwoord-LVC-Producten-ID="http://www.kadaster.nl/schemas/bag-verstrekkingen/bevragingen-lvc/v20090901"
+	xmlns:vraag-LVC-Producten-ID="http://www.kadaster.nl/schemas/bag-verstrekkingen/bevragingen-lvc/v20090901"
+	xmlns:fout="http://www.kadaster.nl/schemas/bag-verstrekkingen/bevragingen-fout/v20090901"
+	name="BagVsRaadplegenLevenscyclus_v20090901"
+	targetNamespace="http://www.kadaster.nl/schemas/bag-verstrekkingen/bevragingen-lvc/v20090901">
+	<wsdl:types>
+		<xsd:schema>
+			<xsd:import
+				namespace="http://www.kadaster.nl/schemas/bag-verstrekkingen/bevragingen-lvc/v20090901"
+				schemaLocation="BagvsBevragingenAntwoordberichtLvcBag-1.3.xsd" />
+			<xsd:import
+				namespace="http://www.kadaster.nl/schemas/bag-verstrekkingen/bevragingen-lvc/v20090901"
+				schemaLocation="BagvsBevragingenVraagberichtLvcBagID-1.3.xsd" />
+			<xsd:import
+				namespace="http://www.kadaster.nl/schemas/bag-verstrekkingen/bevragingen-fout/v20090901"
+				schemaLocation="../../bevragingen-fout/v20090901/ApplicatieFout-1.3.xsd" />
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="opvragenResponse">
+		<wsdl:part name="response"
+			element="antwoord-LVC-Producten-ID:Antwoordbericht-LVC-BAG" />
+	</wsdl:message>
+	<wsdl:message name="opvragenRequest">
+		<wsdl:part name="request"
+			element="vraag-LVC-Producten-ID:Vraagbericht-LVC-BAG-ID" />
+	</wsdl:message>
+	<wsdl:message name="applicatieException">
+		<wsdl:part name="fout" element="fout:ApplicatieFout" />
+	</wsdl:message>
+	<wsdl:portType name="IBagVsRaadplegenLevenscyclus_v20090901">
+		<wsdl:operation
+			name="opvragenBagObjectByBagIdAndLevensCyclusOrToekomst">
+			<wsdl:input message="bagVsLvc:opvragenRequest" />
+			<wsdl:output message="bagVsLvc:opvragenResponse" />
+			<wsdl:fault name="fout"
+				message="bagVsLvc:applicatieException" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="BagVsLvcSOAPBinding"
+		type="bagVsLvc:IBagVsRaadplegenLevenscyclus_v20090901">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation
+			name="opvragenBagObjectByBagIdAndLevensCyclusOrToekomst">
+			<soap:operation
+				soapAction="http://www.kadaster.nl/schemas/Services/BagVsRaadplegenLevenscyclus_v20090901/opvragenBagObjectByBagIdAndLevensCyclusOrToekomst"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="fout">
+				<soap:fault name="fout" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="BagVsRaadplegenLevenscyclus_v20090901">
+		<wsdl:port name="BagVsLvcHTTPPort"
+			binding="bagVsLvc:BagVsLvcSOAPBinding">
+			<soap:address
+				location="http://www.baglv.nl/Verstrekkingen/20090901/RaadplegenLevenscyclus" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

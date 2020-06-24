@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="content-language" content="nl, en" />
+		<title>Reva | Registratie Eerste Verblijfadres</title>
+
+		<wicket:link>
+      <link rel="stylesheet" type="text/css" media="screen, projection" href="css/combined.css" />
+      <link rel="stylesheet" type="text/css" href="css/rhs.css" />        
+      <link rel="stylesheet" type="text/css" href="css/mockup.css" /> 
+      
+      <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+		</wicket:link>	
+	</head>
+	<body>
+		<div id="container">
+			<div id="logo" class="div-logo" wicket:id="headerPanel">header</div>
+			<div wicket:id="debug"></div>
+      <p class="navigation-header">Build: <span wicket:id="versionLabel"></span> | <span wicket:id=
+"screenTitleLabel"></span></p>
+ 			<div class="appContext"><span wicket:id="contextLabel"></span></div>
+ 			<div id="navigation" wicket:id="menuPanel">menu</div> 
+ 			<div class="quicksearch">
+ 				<span>
+	        <a wicket:id="login">Login</a>
+	        <a wicket:id="logout">Logout</a>
+	        <a wicket:id="help">Help</a>
+				</span>            
+ 			</div>
+			<div id="content">
+				<div wicket:id="successMessage" class="message_success">[feedback]</div>
+				<div wicket:id="infoMessage" class="message_info">[feedback]</div>
+				<div wicket:id="errorMessage" class="message_err">[feedback]</div>
+				<wicket:child/>
+			</div>
+			<div id="footer"></div>
+		</div>
+	</body>
+</html>

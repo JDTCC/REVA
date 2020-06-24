@@ -1,0 +1,8 @@
+#!Freemarker
+#
+SELECT (COUNT(DISTINCT ?graphName) as ?aantalGraphs)
+WHERE {
+  GRAPH ?graphName {
+    ?s ?p ?o
+  }
+}

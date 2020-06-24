@@ -1,0 +1,8 @@
+#!Freemarker
+#
+SELECT (COUNT(?graphName) as ?aantalTriples)
+WHERE {
+  GRAPH ?graphName {
+    ?s ?p ?o
+  }
+}

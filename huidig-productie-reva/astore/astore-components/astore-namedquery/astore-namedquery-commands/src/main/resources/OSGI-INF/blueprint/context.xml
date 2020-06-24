@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+  xmlns:ext="http://aries.apache.org/blueprint/xmlns/blueprint-ext/v1.0.0"
+  xmlns:shell="http://karaf.apache.org/xmlns/shell/v1.0.0"
+  default-timeout="10000">
+
+  <shell:command-bundle>
+    <shell:command name="namedQuery/list">
+      <shell:action
+        class="nl.overheid.stelsel.digimelding.astore.namedquery.commands.ListNamedQueriesCommand">
+        <shell:property name="namedQueryService" ref="namedQueryServiceRef" />
+      </shell:action>
+    </shell:command>
+    <shell:command name="namedQuery/get">
+      <shell:action
+        class="nl.overheid.stelsel.digimelding.astore.namedquery.commands.GetNamedQueryCommand">
+        <shell:property name="namedQueryService" ref="namedQueryServiceRef" />
+      </shell:action>
+    </shell:command>
+    <shell:command name="namedQuery/put">
+      <shell:action
+        class="nl.overheid.stelsel.digimelding.astore.namedquery.commands.PutNamedQueryCommand">
+        <shell:property name="namedQueryService" ref="namedQueryServiceRef" />
+      </shell:action>
+    </shell:command>
+    <shell:command name="namedQuery/remove">
+      <shell:action
+        class="nl.overheid.stelsel.digimelding.astore.namedquery.commands.RemoveNamedQueryCommand">
+        <shell:property name="namedQueryService" ref="namedQueryServiceRef" />
+      </shell:action>
+    </shell:command>
+  </shell:command-bundle>
+
+  <reference id="namedQueryServiceRef"
+    interface="nl.overheid.stelsel.digimelding.astore.namedquery.NamedQueryService" />
+
+</blueprint>

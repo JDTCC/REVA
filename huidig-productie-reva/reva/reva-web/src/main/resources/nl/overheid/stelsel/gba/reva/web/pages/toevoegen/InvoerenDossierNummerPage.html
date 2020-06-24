@@ -1,0 +1,46 @@
+<html>
+	<head>
+		<title>Invoeren dossiernummer</title>
+	</head>
+	<body>
+		<div id="content">
+			<wicket:extend>
+				<form wicket:id="dossierNummerFormulier" >
+					<fieldset>
+						<legend>RNI gegevens</legend>
+						<ol>
+							<li>
+								<div wicket:id="bsnBekendFeedback">
+									<label for="bsnBekend"><wicket:message key="bsnBekend" /></label>
+									<div wicket:id="bsnBekend">
+										<input type="radio">Optie 1</input>
+										<input type="radio">Optie 2</input>
+									</div>
+								</div>
+							</li>
+							<div wicket:id="dossierNummerFeedback">
+								<wicket:enclosure child="dossierNummer">
+									<li>
+										<label for="dossierNummer"><wicket:message key="dossierNummer" /></label>
+										<input wicket:id="dossierNummer" type="text" class="text m" maxlength="19"></input>
+									</li>
+								</wicket:enclosure>
+							</div>
+							<div wicket:id="bsnFeedback">
+								<wicket:enclosure child="bsn">
+									<li>
+										<label for="bsn"><wicket:message key="bsn" /></label>
+										<input wicket:id="bsn" type="text" class="text m" maxlength="9"></input>
+									</li>
+								</wicket:enclosure>
+							</div>
+						</ol>
+					</fieldset>
+					<p>
+						<input type="submit" class="btn" wicket:id="doorgaan" wicket:message="value:doorgaan"/>
+					</p>
+				</form>
+			</wicket:extend>
+		</div>
+	</body>
+</html>

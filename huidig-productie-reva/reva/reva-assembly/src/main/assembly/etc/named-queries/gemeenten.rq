@@ -1,0 +1,31 @@
+#!Freemarker
+# Deze query geeft een result set met alle gemeente namen.
+#
+# Required Parameters:
+#   (none)
+# 
+# Optional parameters:
+#   limit              het maximum aantal te tonen resultaten
+#   offset             de offset in de totale result set van waar te starten 
+#                      met het tonen van resultaten.
+#
+
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX gem:  <http://www.bprbzk.nl/BRP/informatiebank/tabel33#>
+
+SELECT ?code ?naam ?nieuweCode
+WHERE {
+  GRAPH <http://www.bprbzk.nl/BRP/informatiebank/tabel33> {
+    ?gemeente rdf:type gem:Gemeente ;
+      gem:code ?code ;
+      gem:naam ?naam .
+	OPTIONAL {
+      ?gemeente gem:nieuweCode ?nieuweCode .
+	}
+  }
+}
+ORDER BY ASC(?code)
+LIMIT ${limit} OFFSET ${offset}

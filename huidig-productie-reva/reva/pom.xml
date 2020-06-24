@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>nl.overheid.stelsel.gba.reva</groupId>
+    <artifactId>reva-root</artifactId>
+    <version>1.5.5.4</version>
+    <relativePath>reva-root</relativePath>
+  </parent>
+
+  <artifactId>reva-reactor</artifactId>
+  <packaging>pom</packaging>
+
+  <name>Reva :: Reactor</name>
+  <description>Pseudo project to build all Reva modules.</description>
+
+  <inceptionYear>2012</inceptionYear>
+
+  <scm>
+    <connection>scm:git:http://dev.reva.org/reva/reva.git</connection>
+    <developerConnection>scm:git:git@dev.reva.org:reva/reva.git</developerConnection>
+    <url>http://dev.reva.org/reva/reva.git</url>
+    <tag>HEAD</tag>
+  </scm>
+
+  <modules>
+    <module>reva-root</module>
+    <module>reva-ext</module>
+    <module>reva-profile</module>
+    <module>reva-auth</module>
+    <module>reva-virtuoso-workaround</module>
+    <module>reva-bag</module>
+    <module>reva-web</module>
+    <module>reva-migrate</module>
+    <module>reva-migrate-model</module>
+    <module>reva-features</module>
+    <module>reva-branding</module>
+    <module>reva-assembly</module>
+    <module>reva-down</module>
+    <module>reva-config</module>
+  </modules>
+
+</project>

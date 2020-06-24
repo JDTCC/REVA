@@ -1,0 +1,64 @@
+#!Freemarker
+#
+# Deze query geeft per gebruiksdoel het aantal aangemaakte registraties 
+# terug in de eventueel geselecteerde periode.
+#
+# Required Parameters:
+#   (none)
+# 
+# Optional parameters:
+#   vanafDatum         de datum vanaf indien aanwezig anders vandaag
+#   totenmetDatum      de datum tot en met indien aanwezig anders vandaag
+#   limit              het maximum aantal te tonen resultaten
+#   offset             de offset in de totale result set van waar te starten 
+#                      met het tonen van resultaten.
+#
+# REMARK:
+#   The parameters 'stamIndexName' can be ignored safely when executing this 
+#   query. They are used by the AStore framework:
+#     'stamIndexName'   Will be replaced with the actual index name used
+#                       by the framework. This name is configuration hence
+#                       the need to use a parameter.
+#
+
+<#assign today = .now?date?iso_utc>
+<#if !(vanafDatum??)>
+  <#assign vanafDatum = today>
+</#if>
+<#if !(totenmetDatum??)>
+  <#assign totenmetDatum = today>
+</#if>
+
+PREFIX oa:   <http://www.w3.org/ns/oa#>  
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX reva: <http://data.reva.nl/2013/07/reva#>
+PREFIX rela: <http://www.digimelding.nl/2013/11/relaties#>
+PREFIX gem:  <http://www.bprbzk.nl/BRP/informatiebank/tabel33#>
+
+SELECT ?gebruiksdoel (COUNT(?stamUri) as ?aantalRegistraties)
+WHERE { 
+  GRAPH ?stamUri {
+    ?stamUri rdf:type reva:RootAnnotatie .
+    
+    ?adresAnnotatie rdf:type reva:AdresAnnotatie ;
+      reva:isLaatsteAdres 'marker' ;
+      oa:hasTarget ?stamUri ;
+      oa:annotatedAt ?tijdstempelAanmaak ;
+      oa:hasBody ?body .
+
+    FILTER (
+      ( strdt( substr(?tijdstempelAanmaak, 1, 10), xsd:date) >= strdt("${vanafDatum}", xsd:date) ) &&
+      ( strdt( substr(?tijdstempelAanmaak, 1, 10), xsd:date) <= strdt("${totenmetDatum}", xsd:date) )
+    ) .
+
+    OPTIONAL {
+      ?body rdf:type reva:AdresBody ;
+        reva:bagGebruiksdoelen ?gebruiksdoel .
+    }
+  } 
+}
+GROUP BY ?gebruiksdoel
+LIMIT ${limit} OFFSET ${offset}

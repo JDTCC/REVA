@@ -1,0 +1,62 @@
+#!Freemarker 
+#
+# Deze query TODO.
+#
+# Let op: ook de nieuwe gemeentecode kan in principe weer vervallen zijn. Controleer 
+#         dit alvorens te migreren.
+#
+# Required Parameters:
+#   oudeGemeenteCode   De gemeente code van het RNI loket dat is komen te vervallen.
+#   nieuweGemeenteCode De nieuwe gemeente code welke voortaan te gebruiken
+# 
+# Optional parameters:
+#   limit              het maximum aantal te tonen resultaten
+#   offset             de offset in de totale result set van waar te starten 
+#                      met het tonen van resultaten.
+#
+# REMARK:
+#   The parameters 'stamIndexName' can be ignored safely when executing this 
+#   query. They are used by the AStore framework:
+#     'stamIndexName'   Will be replaced with the actual index name used
+#                       by the framework. This name is configuration hence
+#                       the need to use a parameter.
+#
+
+PREFIX oa:   <http://www.w3.org/ns/oa#>  
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>  
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX reva: <http://data.reva.nl/2013/07/reva#>
+PREFIX rela: <http://www.digimelding.nl/2013/11/relaties#>
+PREFIX gem:  <http://www.bprbzk.nl/BRP/informatiebank/tabel33#>
+
+# Triple met oude gemeentecode verwijderen indien een triple met de nieuwe 
+# gemeentecode bestaat. Dit ter voorkoming dat er in de tussentijd een nieuwe
+# registratie voor de oude gemeentecode bij is gekomen. Als we deze extra 
+# controle niet hadden zou het resulteren in een registratie zonder gemeentecode.
+DELETE {
+	GRAPH ?graphName {
+		?agent foaf:organisation '${oudeGemeenteCode}' .
+	}
+} 
+# Triple met nieuwe gemeentecode toevoegen indien een triple met de oude 
+# gemeentecode bestaat
+INSERT {
+	GRAPH ?graphName {
+		?agent foaf:organisation '${nieuweGemeenteCode}' .
+	}
+} 
+WHERE {
+	GRAPH ?graphName {
+        ?graphName rdf:type reva:RootAnnotatie ;
+        	oa:annotatedBy ?agent .
+			
+		?agent rdf:type prov:Agent ;
+			foaf:organisation '${oudeGemeenteCode}' .
+	}
+
+	GRAPH <${stamIndexName}> {
+		?graphName rdf:type <http://digimelding.nl/AStore/Stam> .
+	}
+}

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+  xmlns:ext="http://aries.apache.org/blueprint/xmlns/blueprint-ext/v1.0.0"
+  xmlns:shell="http://karaf.apache.org/xmlns/shell/v1.0.0"
+  default-timeout="10000">
+
+  <shell:command-bundle>
+    <shell:command name="timing/list">
+      <shell:action
+        class="nl.overheid.stelsel.digimelding.astore.timing.commands.ListTimingCommand">
+        <shell:property name="timingService" ref="timingServiceRef" />
+      </shell:action>
+    </shell:command>
+    <shell:command name="timing/get">
+      <shell:action
+        class="nl.overheid.stelsel.digimelding.astore.timing.commands.GetTimingCommand">
+        <shell:property name="timingService" ref="timingServiceRef" />
+      </shell:action>
+    </shell:command>
+    <shell:command name="timing/pending">
+      <shell:action
+        class="nl.overheid.stelsel.digimelding.astore.timing.commands.PendingTimingCommand">
+        <shell:property name="timingService" ref="timingServiceRef" />
+      </shell:action>
+    </shell:command>
+  </shell:command-bundle>
+
+  <reference id="timingServiceRef"
+    interface="nl.overheid.stelsel.digimelding.astore.timing.TimingService" />
+
+</blueprint>

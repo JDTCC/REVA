@@ -1,0 +1,30 @@
+#!Freemarker 
+#
+# This query is used by the as:export command to determine all graphs to
+# be exported.
+#
+# Required Parameters:
+#   (none)
+# 
+# Optional parameters:
+#   (none)
+#
+# REMARK:
+#   The parameters 'stamIndexName' can be ignored safely when executing this 
+#   query. They are used by the AStore framework:
+#     'stamIndexName'   Will be replaced with the actual index name used
+#                       by the framework. This name is configurable hence
+#                       the need to use a parameter.
+#
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>  
+
+SELECT ?stam  
+WHERE { 
+  GRAPH <${stamIndexName}> { 
+    ?stamUri rdf:type <http://digimelding.nl/AStore/Stam> 
+    
+    BIND( SUBSTR( str(?stamUri), 10) AS ?stam )
+  } 
+}

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+  xmlns:ext="http://aries.apache.org/blueprint/xmlns/blueprint-ext/v1.0.0"
+  xmlns:shell="http://karaf.apache.org/xmlns/shell/v1.0.0"
+  default-timeout="10000">
+
+  <shell:command-bundle>
+    <shell:command name="as/get">
+      <shell:action
+        class="nl.overheid.stelsel.digimelding.astore.core.commands.GetAnnotationCommand">
+      </shell:action>
+    </shell:command>
+    <shell:command name="as/put">
+      <shell:action
+        class="nl.overheid.stelsel.digimelding.astore.core.commands.PutAnnotationCommand">
+      </shell:action>
+    </shell:command>
+    <shell:command name="as/namedQuery">
+      <shell:action
+        class="nl.overheid.stelsel.digimelding.astore.core.commands.NamedQueryAnnotationCommand">
+      </shell:action>
+    </shell:command>
+    <shell:command name="as/query">
+      <shell:action
+        class="nl.overheid.stelsel.digimelding.astore.core.commands.QueryAnnotationCommand">
+      </shell:action>
+    </shell:command>
+    <shell:command name="as/remove">
+      <shell:action
+        class="nl.overheid.stelsel.digimelding.astore.core.commands.RemoveAnnotationCommand">
+      </shell:action>
+    </shell:command>
+    <shell:command name="as/export">
+      <shell:action
+        class="nl.overheid.stelsel.digimelding.astore.core.commands.ExportAnnotationCommand">
+      </shell:action>
+    </shell:command>
+    <shell:command name="as/import">
+      <shell:action
+        class="nl.overheid.stelsel.digimelding.astore.core.commands.ImportAnnotationCommand">
+      </shell:action>
+    </shell:command>
+  </shell:command-bundle>
+
+</blueprint>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint 
+  xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+  xmlns:ext="http://aries.apache.org/blueprint/xmlns/blueprint-ext/v1.0.0"
+  xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
+  default-timeout="10000">
+	<!-- system.properties -->
+	<ext:property-placeholder placeholder-prefix="$(" placeholder-suffix=")" />
+    
+	<!-- reva.bag.cfg -->
+	<cm:property-placeholder persistent-id="reva.bag" update-strategy="reload" placeholder-prefix="${" placeholder-suffix="}" >
+		<cm:default-properties>
+			<cm:property name="bag.files.location" value="$(karaf.base)/data/bag/" />
+			<cm:property name="bag.cache.enabled" value="false" />
+		</cm:default-properties>
+	</cm:property-placeholder>
+	
+	<bean id="bagService" class="nl.overheid.stelsel.gba.reva.bag.triemap.TriemapBagService">
+		<property name="bagFilesLocation" value="${bag.files.location}" />
+		<property name="bagCacheEnabled" value="${bag.cache.enabled}" />
+		<property name="bagCacheConfigFile" value="${bag.cache.configuration}" />
+	</bean>
+    
+	<service ref="bagService" interface="nl.overheid.stelsel.gba.reva.bag.BagService" />
+ 
+</blueprint>

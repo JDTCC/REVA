@@ -1,0 +1,115 @@
+#!Freemarker
+# Deze query geeft het aantal eerste verblijfadres registraties die voldoen 
+# aan de 'inzien' criteria van de Reva applicatie. Dit aantal wordt onder
+# andere gebruikt voor de paginering op het Reva zoek scherm te vullen.
+#
+# Required Parameters:
+# 
+# Optional parameters:
+#   gemeenteCode       de BAG gemeente code.
+#   dossierNummer      het RNI dossiernummer.
+#   bsn                het GBA BSN nummer.
+#   vanafDatum         de datum vanaf
+#   totenmetDatum      de datum tot en met.
+#   woonPlaats         de woonplaats
+#   openbareRuimte     de openbare ruimte
+#   postCode           de postcode.
+#   huisNummer         het huidnummer
+#   limit              het maximum aantal te tonen resultaten
+#   offset             de offset in de totale result set van waar te starten 
+#                      met het tonen van resultaten.
+#
+# REMARK:
+#   The parameters 'stamColumnName' and 'stamIndexName' can be ignored safely  
+#   when executing this query. They are used by the AStore framework:
+#     'stamColumnName'  Will be replaced with the column name used by the
+#                       framework. This column name tells the framework to
+#                       replace the resultset with a set of annotation trees.
+#     'stamIndexName'   Will be replaced with the actual index name used
+#                       by the framework. This name is configuration hence
+#                       the need to use a parameter.
+#
+
+PREFIX oa:   <http://www.w3.org/ns/oa#>  
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX reva: <http://data.reva.nl/2013/07/reva#>
+PREFIX rela: <http://www.digimelding.nl/2013/11/relaties#>
+PREFIX gem:  <http://www.bprbzk.nl/BRP/informatiebank/tabel33#>
+
+SELECT (COUNT(?stamUri) as ?aantal)
+WHERE {
+<#if dossierNummer??>
+  GRAPH ?stamUri {
+    ?dossierNummerAnnotatie rdf:type reva:DossierNummerAnnotatie ;
+      oa:hasBody '${dossierNummer}' ;
+      oa:hasTarget ?stamUri .
+  }
+</#if>
+
+<#if bsn??>
+  GRAPH ?stamUri {
+    ?bsnAnnotatie rdf:type reva:BSNAnnotatie ;
+      oa:hasTarget ?stamUri ;
+      oa:hasBody '${bsn}' .
+  }
+</#if>
+
+  GRAPH ?stamUri {
+    ?stamUri rdf:type reva:RootAnnotatie .
+
+    <#if stamId??>
+      <urn:uuid:${stamId}> rdf:type reva:RootAnnotatie .
+    </#if>
+
+    ?adresAnnotatie oa:hasTarget ?stamUri ;
+      rdf:type reva:AdresAnnotatie ;
+      reva:isLaatsteAdres 'marker' ;
+      oa:hasBody ?body .
+
+    <#if ((woonPlaats??) || (openbareRuimte??) || (postCode??) || (huisNummer??))>
+      ?body rdf:type reva:AdresBody .
+      <#if (woonPlaats??)>
+        ?body reva:woonplaats '${woonPlaats}' .
+      </#if>
+      <#if (openbareRuimte??)>
+        ?body reva:openbareruimte '${openbareRuimte}' .
+      </#if>
+      <#if (postCode??)>
+        ?body reva:postcode '${postCode}' .
+      </#if>
+      <#if (huisNummer??)>
+        ?body reva:huisnummer '${huisNummer}' .
+      </#if>
+    </#if>
+
+    <#if (vanafDatum??) || (totenmetDatum??)>
+      ?adresAnnotatie reva:aanmaakDatumInt ?aanmaakDatumAdres .
+      FILTER (
+        <#if (vanafDatum??)>
+          ( ?aanmaakDatumAdres >= ${vanafDatum?replace("-","")} )
+        </#if>
+        <#if (vanafDatum??) && (totenmetDatum??)>
+          &&
+        </#if>
+        <#if (totenmetDatum??)>
+          ( ?aanmaakDatumAdres <= ${totenmetDatum?replace("-","")} )
+        </#if>
+      ) .
+    </#if>
+
+<#if gemeenteCode??>
+    ?body reva:bagIdCodePlaats ?idCodeObject .
+</#if>
+  }
+
+<#if gemeenteCode??>
+  GRAPH <http://www.digimelding.nl/2013/11/relaties> {
+    <http://www.kadaster.nl/gemeente/${gemeenteCode}> rdf:type rela:Gemeente ;
+      rela:heeftPlaats ?idCodeObject .
+  }
+</#if>
+}
+LIMIT ${limit} OFFSET ${offset}

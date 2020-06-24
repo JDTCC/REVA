@@ -1,0 +1,52 @@
+<html>
+	<head>
+	<title>Rapportage: Registratie voor gemeente</title>
+	</head>
+	<body>
+		<div id="content">
+			<wicket:extend>
+				<h1>Overzicht registraties door uw gemeente voor alle doelgemeenten</h1>
+				<p>Deze rapportage geeft een overzicht van het aantal registraties aangemaakt door uw gemeente voor alle doelgemeenten.</p>
+				<form wicket:id="rapportageFormulier" >
+					<fieldset>
+						<legend>Criteria</legend>
+						<ol>
+							<div wicket:id="gemeenteCodeFeedback">
+								<wicket:enclosure>
+									<li>
+											<label for="gemeenteCode"><wicket:message key="gemeenteCode" /></label>
+											<input wicket:id="gemeenteCode" type="text" class="text s" maxlength="4"></input>
+									</li>
+								</wicket:enclosure>
+							</div>
+							<li>
+								<div wicket:id="vanafDatumFeedback">
+									<label for="vanafDatum"><wicket:message key="vanafDatum" /></label>
+									<input wicket:id="vanafDatum" type="text" class="text s datepicker"></input>
+								</div>
+							</li>
+							<li>
+								<div wicket:id="totenmetDatumFeedback">
+									<label for="totenmetDatum"><wicket:message key="totenmetDatum" /></label>
+									<input wicket:id="totenmetDatum" type="text" class="text s datepicker"></input>
+								</div>
+							</li>
+						</ol>
+					</fieldset>
+					<p>
+						<input type="submit" class="btn" autofocus wicket:message="value:start"/>
+					</p>
+				</form>
+				<wicket:enclosure child="resultaten">
+					<fieldset>
+						<legend>Zoek resultaten</legend>
+						<span wicket:id="resultaten">[resultaten paneel]</span>
+					</fieldset>
+				</wicket:enclosure>
+				<p>
+					<a class="button" wicket:id="download" type="application/vnd.ms-excel" download="voorGemeente.xls">Download</a>
+				</p>
+			</wicket:extend>
+		</div>
+	</body>
+</html>

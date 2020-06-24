@@ -1,0 +1,29 @@
+#!Freemarker 
+#
+# Deze query geeft het aantal objecten per datatype voor het veld reva:aanmaakDatumInt
+# terug. Eigenlijk moet deze alleen datatype van xsd:integer teruggeven maak als gevolg
+# fouten in de templates kunnen er ook velden van het datatype xsd:string zijn. Deze
+# laatste group vereist migratie.
+#
+# Required Parameters:
+#   (none)
+# 
+# Optional parameters:
+#   (none)
+#
+
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+PREFIX reva: <http://data.reva.nl/2013/07/reva#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?datatype (COUNT(?annot) as ?aantal)
+WHERE {
+  GRAPH ?stamUri {
+    ?annot reva:aanmaakDatumInt ?datumInt .
+
+    BIND( datatype(?datumInt) as ?datatype)
+  }
+}
+GROUP BY ?datatype
+LIMIT ${limit} OFFSET ${offset}

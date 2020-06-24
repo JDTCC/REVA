@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint 
+  xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+  xmlns:ext="http://aries.apache.org/blueprint/xmlns/blueprint-ext/v1.0.0"
+  default-timeout="10000">
+
+  <ext:property-placeholder placeholder-prefix="$(" placeholder-suffix=")"/>
+
+  <ext:property-placeholder placeholder-prefix="${" placeholder-suffix="}" ignore-missing-locations="true">
+    <ext:location>file:$(karaf.base)/etc/astore.notification.twitter.cfg</ext:location>
+  </ext:property-placeholder>
+  
+  <bean id="twitterFactory"     
+    class="nl.overheid.stelsel.digimelding.astore.notification.twitter.TwitterFactory">
+    <property name="consumerKey" value="${twitter.consumerKey}" />
+    <property name="consumerSecret" value="${twitter.consumerSecret}" />
+    <property name="accessToken" value="${twitter.accessToken}" />
+    <property name="accessTokenSecret" value="${twitter.accessTokenSecret}" />
+  </bean>
+
+  <bean id="twitterBean" factory-ref="twitterFactory" factory-method="getInstance"/>
+
+	<bean id="notificationProviderPlugin" 
+    class="nl.overheid.stelsel.digimelding.astore.notification.twitter.TwitterNotificationProvider" 
+    init-method="init" destroy-method="destroy" >
+
+    <property name="twitter" ref="twitterBean" />
+  </bean>
+    
+	<service ref="notificationProviderPlugin" 
+    interface="nl.overheid.stelsel.digimelding.astore.notification.NotificationProvider" />
+</blueprint>

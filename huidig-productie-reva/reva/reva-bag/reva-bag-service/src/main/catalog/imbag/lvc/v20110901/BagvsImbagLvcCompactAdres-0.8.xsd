@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2010 (http://www.altova.com) by Kadaster (Kadaster) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:bc_adres_LVC="http://www.kadaster.nl/schemas/imbag-compact/lvc/v20110901" xmlns:bagtype="http://www.kadaster.nl/schemas/imbag/imbag-types/v20110901" xmlns:gml="http://www.opengis.net/gml" xmlns:nen5825="http://www.kadaster.nl/schemas/imbag/nen5825/v20090901" targetNamespace="http://www.kadaster.nl/schemas/imbag-compact/lvc/v20110901" elementFormDefault="qualified" attributeFormDefault="unqualified" version="0.7">
+	<xs:annotation>
+		<xs:documentation>Dit model is gebaseeerd op IMBAG, geschikt gemaakt voor de levering van Bag Compact Adressen. Het IMBAG model is het informatiemodel van de basisregistratie adressen en gebouwen (BAG). Het modelleert de gegevens die door de basisregistratie worden verstrekt. </xs:documentation>
+	</xs:annotation>
+	<xs:import namespace="http://www.kadaster.nl/schemas/imbag/nen5825/v20090901" schemaLocation="../../nen5825/v20090901/BagvsNEN5825-0.7.xsd"/>
+	<xs:import namespace="http://www.kadaster.nl/schemas/imbag/imbag-types/v20110901" schemaLocation="../../imbag-types/v20110901/BagvsImbagOnderdelen-0.8.xsd"/>
+	<xs:element name="BCNummeraanduiding" type="bc_adres_LVC:BCNummeraanduiding"/>
+	<xs:complexType name="BCNummeraanduiding">
+		<xs:annotation>
+			<xs:documentation>Dit objecttype is een verkort weergegeven variant  t.b.v. het product BAG Compact. Een NUMMERAANDUIDING is een door de gemeenteraad als
+zodanig toegekende aanduiding van een adresseerbaar object.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="identificatie" type="bagtype:Objectnummer">
+				<xs:annotation>
+					<xs:documentation>De unieke aanduiding van een NUMMERAANDUIDING.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="huisnummer" type="bagtype:Huisnummer">
+				<xs:annotation>
+					<xs:documentation>Een door of namens het gemeentebestuur ten aanzien
+van een adresseerbaar object toegekende nummering.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="huisletter" type="bagtype:Huisletter" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Een door of namens het gemeentebestuur ten aanzien
+van een adresseerbaar object toegekende toevoeging
+aan een huisnummer in de vorm van een alfanumeriek
+teken.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="huisnummertoevoeging" type="bagtype:Huisnummertoevoeging" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Een door of namens het gemeentebestuur ten aanzien
+van een adresseerbaar object toegekende nadere
+toevoeging aan een huisnummer of een combinatie van
+huisnummer en huisletter.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="postcode" type="bagtype:Postcode" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>De door TNT Post vastgestelde code behorende bij een
+bepaalde combinatie van een straatnaam en een
+huisnummer.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="typeAdresseerbaarObject" type="bagtype:TypeAdresseerbaarObject">
+				<xs:annotation>
+					<xs:documentation>De aard van een als zodanig benoemde
+NUMMERAANDUIDING.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="BCOpenbareRuimte" type="bc_adres_LVC:BCOpenbareRuimte"/>
+	<xs:complexType name="BCOpenbareRuimte">
+		<xs:annotation>
+			<xs:documentation>Dit objecttype is een verkort weergegeven variant  t.b.v. het product BAG Compact. Een OPENBARE RUIMTE is een door de gemeenteraad als
+zodanig aangewezen benaming van een binnen 1 woonplaats
+gelegen buitenruimte.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="openbareRuimteNaam" type="bagtype:Objectnaam">
+				<xs:annotation>
+					<xs:documentation>Een naam die aan een OPENBARE RUIMTE is toegekend in een daartoe strekkend formeel gemeentelijk besluit.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="nen5825:VerkorteOpenbareruimteNaam" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="BCWoonplaats" type="bc_adres_LVC:BCWoonplaats"/>
+	<xs:complexType name="BCWoonplaats">
+		<xs:annotation>
+			<xs:documentation>Dit objecttype is een verkort weergegeven variant  t.b.v. het product BAG Compact. Een WOONPLAATS is een door de gemeenteraad als
+zodanig aangewezen gedeelte van het gemeentelijk
+grondgebied.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="identificatie" type="bagtype:Woonplaatscode">
+				<xs:annotation>
+					<xs:documentation>De landelijk unieke aanduiding van een WOONPLAATS,
+zoals vastgesteld door de beheerder van de landelijke
+tabel voor woonplaatsen.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="woonplaatsNaam" type="bagtype:Objectnaam">
+				<xs:annotation>
+					<xs:documentation>De benaming van een door het gemeentebestuur
+aangewezen WOONPLAATS.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="BCVerblijfsobject" type="bc_adres_LVC:BCVerblijfsobject"/>
+	<xs:complexType name="BCVerblijfsobject">
+		<xs:annotation>
+			<xs:documentation>Dit objecttype is een verkort weergegeven variant  t.b.v. het product BAG Compact. Een VERBLIJFSOBJECT is de kleinste binnen één of meerdere
+panden gelegen en voor woon -, bedrijfsmatige - of recreatieve
+doeleinden geschikte eenheid van gebruik, die ontsloten wordt
+via een eigen toegang vanaf de openbare weg, een erf of een
+gedeelde verkeersruimte en die onderwerp kan zijn van
+rechtshandelingen.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="identificatie" type="bagtype:Objectnummer">
+				<xs:annotation>
+					<xs:documentation>De unieke aanduiding van een VERBLIJFSOBJECT</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="gebruiksdoelVerblijfsobject" type="bagtype:Gebruiksdoel" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Een categorisering van de gebruiksdoelen van het
+betreffende VERBLIJFSOBJECT, zoals dit formeel door
+de overheid als zodanig is toegestaan.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="BCLigplaats" type="bc_adres_LVC:BCLigplaats"/>
+	<xs:complexType name="BCLigplaats">
+		<xs:annotation>
+			<xs:documentation>Dit objecttype is een verkort weergegeven variant  t.b.v. het product BAG Compact. Een LIGPLAATS is een formeel door de gemeenteraad als
+zodanig aangewezen plaats in het water, al dan niet aangevuld
+met een op de oever aanwezig terrein of een gedeelte daarvan,
+dat bestemd is voor het permanent afmeren van een voor woon-,
+bedrijfsmatige- of recreatieve doeleinden geschikt vaartuig.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="identificatie" type="bagtype:Objectnummer">
+				<xs:annotation>
+					<xs:documentation>De unieke aanduiding van een LIGPLAATS.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="BCStandplaats" type="bc_adres_LVC:BCStandplaats"/>
+	<xs:complexType name="BCStandplaats">
+		<xs:annotation>
+			<xs:documentation>Dit objecttype is een verkort weergegeven variant  t.b.v. het product BAG Compact. Een STANDPLAATS is een formeel door de gemeenteraad als
+zodanig aangewezen terrein of een gedeelte daarvan, dat
+bestemd is voor het permanent plaatsen van een niet direct en
+duurzaam met de aarde verbonden en voor woon -,
+bedrijfsmatige - of recreatieve doeleinden geschikte ruimte.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="identificatie" type="bagtype:Objectnummer">
+				<xs:annotation>
+					<xs:documentation>De unieke aanduiding van een STANDPLAATS.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="aanduidingRecordInactief" type="bagtype:Indicatie">
+		<xs:annotation>
+			<xs:documentation>Aanvulling IMBAG. Deze aanduiding is afgeleid van de combinatie van aanduidingRecordInactief van Nummeraanduiding, Openbareruimte en Woonplaats. Voor de definitie wordt verwezen naar IMBAG. </xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="inOnderzoek" type="bagtype:Indicatie">
+		<xs:annotation>
+			<xs:documentation>Aanvulling IMBAG. Deze aanduiding is afgeleid van de combinatie van inOnderzoek van Nummeraanduiding, Openbareruimte en Woonplaats. 
+Voor de definitie wordt verwezen naar IMBAG. </xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="tijdvakGeldigheid" type="bagtype:Tijdvakgeldigheid">
+		<xs:annotation>
+			<xs:documentation>Aanvulling IMBAG. Deze periode is afgeleid van de combinatie van TijdvakGeldigheid van Nummeraanduiding, Openbareruimte en Woonplaats. Voor de definitie wordt verwezen naar IMBAG. </xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="AdresseerbaarobjectKoppeling" type="bc_adres_LVC:AdresseerbaarobjectKoppeling">
+		<xs:annotation>
+			<xs:documentation>Aanvulling IMBAG. </xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="AdresseerbaarobjectKoppeling">
+		<xs:annotation>
+			<xs:documentation>Aanvulling IMBAG. </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="aanduidingHoofdadres" type="bc_adres_LVC:TypeIndicatorHoofdadres"/>
+			<xs:choice>
+				<xs:element ref="bc_adres_LVC:BCLigplaats"/>
+				<xs:element ref="bc_adres_LVC:BCStandplaats"/>
+				<xs:element ref="bc_adres_LVC:BCVerblijfsobject"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="TypeIndicatorHoofdadres">
+		<xs:annotation>
+			<xs:documentation>Aanvulling IMBAG. De aard van de relatie tussen het adresseerbaar object en de nummeraanduiding.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="bagtype:Indicatie"/>
+	</xs:simpleType>
+	<xs:simpleType name="TypePoint.X">
+		<xs:annotation>
+			<xs:documentation>Aanvulling IMBAG. De X coordinaat is afgeleidt van de geometrie uit de BAG en is een 2D projectie van de 3D puntgeometrie van een verblijfsobject, of het middelpunt van het 3D vlak van een adresseerbaar object, liggende binnen Nederland. Geodefinitie: srsName="urn:ogc:def:crs:EPSG::28992</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:double">
+			<xs:minInclusive value="-25000"/>
+			<xs:maxInclusive value="350000"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TypePoint.Y">
+		<xs:annotation>
+			<xs:documentation>Aanvulling IMBAG. De Y coordinaat is afgeleidt van de geometrie uit de BAG en is een 2D projectie van de 3D puntgeometrie van een verblijfsobject, of het middelpunt van het 3D vlak van een adresseerbaar object, liggende binnen Nederland. Geodefinitie: srsName="urn:ogc:def:crs:EPSG::28992</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:double">
+			<xs:minInclusive value="275000"/>
+			<xs:maxInclusive value="650000"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

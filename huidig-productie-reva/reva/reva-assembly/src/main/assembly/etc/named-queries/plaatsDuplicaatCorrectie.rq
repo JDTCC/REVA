@@ -1,0 +1,42 @@
+#!Freemarker
+# Deze query corrigeert registraties met waarbij plaatsen de verkeerde
+# bag verblijfsadres id hebben. Geen hiertoe de woonplaats en de juiste
+# BAG id op.
+#
+# Required Parameters:
+#   woonplaats         de woonplaats
+#   verkeerdeIdCode    de juiste bag verblijfsadres ID
+#   juisteIdCode       de juiste bag verblijfsadres ID
+# 
+# Optional parameters:
+#
+
+PREFIX oa:   <http://www.w3.org/ns/oa#>  
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX reva: <http://data.reva.nl/2013/07/reva#>
+PREFIX rela: <http://www.digimelding.nl/2013/11/relaties#>
+PREFIX gem:  <http://www.bprbzk.nl/BRP/informatiebank/tabel33#>
+
+DELETE {
+  GRAPH ?stamUri {
+    ?body reva:bagIdCodePlaats '${verkeerdeIdCode}' .
+  }
+} 
+INSERT {
+  GRAPH ?stamUri {
+    ?body reva:bagIdCodePlaats '${juisteIdCode}' .
+  }
+} 
+WHERE {
+  GRAPH ?stamUri {
+    ?body reva:woonplaats '${woonplaats}' ;
+      reva:bagIdCodePlaats '${verkeerdeIdCode}' .
+  }
+
+  GRAPH <${stamIndexName}> {
+    ?stamUri rdf:type <http://digimelding.nl/AStore/Stam> .
+  }
+}

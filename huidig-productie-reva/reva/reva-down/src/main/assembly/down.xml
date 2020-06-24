@@ -1,0 +1,16 @@
+<assembly>
+  <id>down</id>
+  <formats>
+    <format>zip</format>
+  </formats>
+  <includeBaseDirectory>false</includeBaseDirectory>
+  <fileSets>
+    <fileSet>
+      <directory>target/assembly</directory>
+      <includes>
+        <include>**/*</include>
+      </includes>
+      <outputDirectory>/reva-down</outputDirectory>
+    </fileSet>
+  </fileSets>
+</assembly>

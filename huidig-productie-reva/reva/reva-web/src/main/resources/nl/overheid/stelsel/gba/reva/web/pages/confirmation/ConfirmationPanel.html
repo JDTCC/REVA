@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    <html xmlns:wicket>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title wicket:id="confirmationTitle"></title>
+
+		<wicket:link>
+		    <link rel="stylesheet" type="text/css" media="screen, projection" href="css/combined.css" />
+		    <link rel="stylesheet" type="text/css" href="css/rhs.css" />        
+		    <link rel="stylesheet" type="text/css" href="css/mockup.css" /> 
+		    
+		    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+		</wicket:link>	
+    </head>
+    <body>
+        <wicket:panel >
+            <form wicket:id="confirmationForm" action="" style="display: inline;">
+	        	<span wicket:id="confirmationMessage"></span>
+				<p>
+	                <input type="submit" wicket:id="acceptButton" value="Accept" />
+	                <input type="submit" wicket:id="rejectButton" value="Reject" />
+				</p>
+            </form>
+        </wicket:panel>
+    </body>
+</html>

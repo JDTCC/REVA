@@ -1,0 +1,134 @@
+#!Freemarker 
+#
+# Deze query geeft het aantal aangemaakte registraties per doelgemeente terug.
+#
+# Required Parameters:
+#   (none)
+# 
+# Optional parameters:
+#   gemeenteCode       de loketgemeente die de registraties heeft aangemaakt.
+#   vanafDatum         de datum vanaf indien aanwezig anders vandaag
+#   totenmetDatum      de datum tot en met indien aanwezig anders vandaag
+#   limit              het maximum aantal te tonen resultaten
+#   offset             de offset in de totale result set van waar te starten 
+#                      met het tonen van resultaten.
+#
+# REMARK:
+#   The parameters 'stamIndexName' can be ignored safely when executing this 
+#   query. They are used by the AStore framework:
+#     'stamIndexName'   Will be replaced with the actual index name used
+#                       by the framework. This name is configuration hence
+#                       the need to use a parameter.
+#
+
+<#setting date_format="yyyyMMdd">
+<#assign today = .now?date>
+<#if vanafDatum??>
+  <#assign vanaf = vanafDatum?replace("-","")>
+<#else>
+  <#assign vanaf = today>
+</#if>
+<#if totenmetDatum??>
+  <#assign totenmet = totenmetDatum?replace("-","")>
+<#else>
+  <#assign totenmet = today>
+</#if>
+
+PREFIX oa:   <http://www.w3.org/ns/oa#>  
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>  
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX reva: <http://data.reva.nl/2013/07/reva#>
+PREFIX rela: <http://www.digimelding.nl/2013/11/relaties#>
+PREFIX gem:  <http://www.bprbzk.nl/BRP/informatiebank/tabel33#>
+
+<#if gemeenteCode??>
+SELECT ?gemeenteCode ?gemeente ?aantalRegistraties
+WHERE {
+  {
+    SELECT ?gemeenteRef (COUNT(?stamUri) as ?aantalRegistraties)
+    WHERE {
+      {
+        SELECT ?stamUri ?body
+        WHERE {
+          GRAPH ?stamUri {
+            ?adresAnnotatie rdf:type reva:AdresAnnotatie ;
+              oa:hasTarget ?stamUri ;
+              reva:isLaatsteAdres 'marker' ;
+              reva:aanmaakDatumInt ?correctieTijdstempel ;
+              oa:annotatedBy ?agent ;
+              oa:hasBody ?body .
+
+            FILTER (
+              ( ?correctieTijdstempel >= ${vanaf} ) &&
+              ( ?correctieTijdstempel <= ${totenmet} )
+            ) .
+
+            ?agent foaf:organisation "${gemeenteCode}" .
+          }
+        }
+      }
+
+      GRAPH ?stamUri {
+        ?body rdf:type reva:AdresBody ;
+          reva:bagIdCodePlaats ?idCodeObject .
+      }
+
+      GRAPH <http://www.digimelding.nl/2013/11/relaties> {
+        ?gemeenteRef rdf:type rela:Gemeente ;
+          rela:heeftPlaats ?idCodeObject .
+      }
+    }
+    GROUP BY ?gemeenteRef
+  }
+
+  BIND( replace( str(?gemeenteRef), "http://.*/", "" ) AS ?gemeenteCode )
+
+  GRAPH <http://www.bprbzk.nl/BRP/informatiebank/tabel33> {
+    ?gemeenteObject rdf:type gem:Gemeente ;
+      gem:code ?gemeenteCode ;
+      gem:naam ?gemeente .
+  }
+}
+GROUP BY ?gemeenteCode ?gemeente
+<#else>
+SELECT ?gemeenteCode ?gemeente ?aantalRegistraties
+WHERE {
+  {
+    SELECT ?gemeenteRef (COUNT(?stamUri) as ?aantalRegistraties)
+    WHERE {
+      GRAPH ?stamUri {
+        ?adresAnnotatie rdf:type reva:AdresAnnotatie ;
+          oa:hasTarget ?stamUri ;
+          reva:isLaatsteAdres 'marker' ;
+          reva:aanmaakDatumInt ?correctieTijdstempel .
+
+        FILTER (
+          ( ?correctieTijdstempel >= ${vanaf} ) &&
+          ( ?correctieTijdstempel <= ${totenmet} )
+        ) .
+
+        ?adresAnnotatie oa:hasBody ?body .
+        ?body rdf:type reva:AdresBody ;
+          reva:bagIdCodePlaats ?idCodeObject .
+      }
+
+      GRAPH <http://www.digimelding.nl/2013/11/relaties> {
+        ?gemeenteRef rdf:type rela:Gemeente ;
+          rela:heeftPlaats ?idCodeObject .
+      }
+    }
+    GROUP BY ?gemeenteRef
+  }
+
+  BIND( replace( str(?gemeenteRef), "http://.*/", "" ) AS ?gemeenteCode )
+
+  GRAPH <http://www.bprbzk.nl/BRP/informatiebank/tabel33> {
+    ?gemeenteObject rdf:type gem:Gemeente ;
+      gem:code ?gemeenteCode ;
+      gem:naam ?gemeente .
+  }
+}
+</#if>
+LIMIT ${limit} OFFSET ${offset}

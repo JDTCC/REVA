@@ -1,0 +1,8 @@
+<!DOCTYPE catalog
+PUBLIC "-//OASIS//DTD Entity Resolution XML Catalog V1.0//EN"
+"http://www.oasis-open.org/committees/entity/release/1.0/catalog.dtd">
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+
+  <public publicId="http://www.kadaster.nl/schemas/imbag-compact/lvc/v20110901" uri="imbag/lvc/v20110901/BagvsImbagLvcCompactAdres-0.8.xsd" />
+  <public publicId="http://www.kadaster.nl/schemas/imbag/imbag-types/v20110901" uri="imbag/imbag-types/v20110901/BagvsImbagOnderdelen-0.8.xsd" />
+</catalog>

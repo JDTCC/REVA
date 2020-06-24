@@ -1,0 +1,46 @@
+#!Freemarker
+# Deze query toont de plaatsen die in registraties voorkomen met meer 
+# dan 1 BAG identificatie code.
+#
+# Required Parameters:
+# 
+# Optional parameters:
+#
+
+PREFIX oa:   <http://www.w3.org/ns/oa#>  
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX reva: <http://data.reva.nl/2013/07/reva#>
+PREFIX rela: <http://www.digimelding.nl/2013/11/relaties#>
+PREFIX gem:  <http://www.bprbzk.nl/BRP/informatiebank/tabel33#>
+
+#SELECT ?plaatsnaam ?plaatsCode
+SELECT ?plaatsnaam ?aantal
+WHERE {
+  {
+    SELECT ?plaatsnaam (COUNT(?idCode) as ?aantal) 
+    WHERE {
+      {
+        SELECT ?idCode ?plaatsnaam 
+        WHERE {
+          GRAPH ?stamUri {
+            ?body rdf:type reva:AdresBody ;
+              reva:woonplaats ?plaatsnaam ;
+              reva:bagIdCodePlaats ?idCode .
+          }
+        }
+        GROUP BY ?idCode
+      }
+    }
+    GROUP BY ?plaatsnaam
+  }
+  FILTER( ?aantal > 1 )
+
+#  ?body2 rdf:type reva:AdresBody ;
+#    reva:woonplaats ?plaatsnaam ;
+#    reva:bagIdCodePlaats ?plaatsCode .
+}
+#GROUP BY ?plaatsnaam ?plaatsCode
+#ORDER BY ?plaatsnaam

@@ -1,0 +1,28 @@
+#!Freemarker
+# Deze query geeft het aantal gemeente namen. Dit zijn niet alleen de geldige
+# gemeenten, maar ook gemeente namen van gemeenten die eerder in andere gemeenten
+# zijn opgegaan. (aantal komt overeen met aantal rijen in tabel 33).
+#
+# Required Parameters:
+#   (none)
+# 
+# Optional parameters:
+#   limit              het maximum aantal te tonen resultaten
+#   offset             de offset in de totale result set van waar te starten 
+#                      met het tonen van resultaten.
+#
+
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX gem:  <http://www.bprbzk.nl/BRP/informatiebank/tabel33#>
+
+SELECT (count (distinct ?gemeente) as ?aantalGemeenten) 
+WHERE {
+  GRAPH <http://www.bprbzk.nl/BRP/informatiebank/tabel33> {
+    ?gemeente rdf:type gem:Gemeente ;
+      gem:naam ?naam .
+  }
+}
+LIMIT ${limit} OFFSET ${offset}

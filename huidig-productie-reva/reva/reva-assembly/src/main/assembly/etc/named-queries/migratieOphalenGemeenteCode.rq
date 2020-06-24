@@ -1,0 +1,37 @@
+#!Freemarker 
+#
+# Controleer of een opgegeven gemeentecode bestaat en geef indien aanwezig
+# meteen een eventueel nieuwe gemeentecode terug.
+#
+# Required Parameters:
+#   gemeenteCode   De gemeente code die we zoeken.
+# 
+# Optional parameters:
+#   (Geen)
+#
+# REMARK:
+#   The parameters 'stamIndexName' can be ignored safely when executing this 
+#   query. They are used by the AStore framework:
+#     'stamIndexName'   Will be replaced with the actual index name used
+#                       by the framework. This name is configuration hence
+#                       the need to use a parameter.
+#
+
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX gem:  <http://www.bprbzk.nl/BRP/informatiebank/tabel33#>
+
+SELECT ?code ?nieuweCode
+WHERE {
+  GRAPH <http://www.bprbzk.nl/BRP/informatiebank/tabel33> {
+    ?gemeente rdf:type gem:Gemeente ;
+      gem:code '${gemeenteCode}' .
+	  
+	BIND( '${gemeenteCode}' AS ?code )
+	
+	OPTIONAL {
+      ?gemeente gem:nieuweCode ?nieuweCode .
+	}
+  }
+}
+
+

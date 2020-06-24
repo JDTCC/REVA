@@ -1,0 +1,42 @@
+#!Freemarker 
+#
+# Deze query vervangt alle objecten met een annotatedAt triple met het verkeerde
+# datatype (xsd:xsd:dateTime). Dit script vervangt dergelijke triple door een met
+# het datatype xsd:dateTime. 
+#
+# Required Parameters:
+#   (none)
+# 
+# Optional parameters:
+#   limit              het maximum aantal te tonen resultaten
+#
+
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+PREFIX reva: <http://data.reva.nl/2013/07/reva#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+DELETE {
+  GRAPH ?stamUri {
+    ?object oa:annotatedAt ?datum .
+  }
+} 
+INSERT {
+  GRAPH ?stamUri {
+    ?object oa:annotatedAt ?correctValue .
+  }
+} 
+WHERE {
+  SELECT ?stamUri ?object ?datum ?correctValue ?correctType {
+    GRAPH ?stamUri {
+      ?object oa:annotatedAt ?datum . 
+	
+      FILTER ( datatype(?datum) = <http://www.w3.org/2001/XMLSchema#xsd:dateTime> )
+	
+      BIND( datatype(?datum) as ?datatype)
+      BIND( strdt(?datum, xsd:dateTime) as ?correctValue)
+      BIND( datatype(?correctValue) as ?correctType)
+    }
+  }
+  LIMIT ${limit}
+}

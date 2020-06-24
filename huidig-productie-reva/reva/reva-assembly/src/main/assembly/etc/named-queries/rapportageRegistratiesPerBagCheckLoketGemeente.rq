@@ -1,0 +1,97 @@
+#!Freemarker 
+#
+# Deze query geeft een overzicht van de uitkomst van de bag controle
+# per loketgemeente terug. 
+#
+# Required Parameters:
+# 
+# Optional parameters:
+#   gemeenteCode       de gemeente waarvoor deze rapportage geldt.
+#   vanafDatum         de datum vanaf indien aanwezig anders vandaag
+#   totenmetDatum      de datum tot en met indien aanwezig anders vandaag
+#   limit              het maximum aantal te tonen resultaten
+#   offset             de offset in de totale result set van waar te starten 
+#                      met het tonen van resultaten.
+#
+# REMARK:
+#   The parameters 'stamIndexName' can be ignored safely when executing this 
+#   query. They are used by the AStore framework:
+#     'stamIndexName'   Will be replaced with the actual index name used
+#                       by the framework. This name is configuration hence
+#                       the need to use a parameter.
+#
+
+<#assign today = .now?date?iso_utc>
+<#if !(vanafDatum??)>
+  <#assign vanafDatum = today>
+</#if>
+<#if !(totenmetDatum??)>
+  <#assign totenmetDatum = today>
+</#if>
+
+PREFIX oa:   <http://www.w3.org/ns/oa#>  
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>  
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX reva: <http://data.reva.nl/2013/07/reva#>
+PREFIX rela: <http://www.digimelding.nl/2013/11/relaties#>
+PREFIX gem:  <http://www.bprbzk.nl/BRP/informatiebank/tabel33#>
+
+SELECT ?gemeenteVanInschrijvingCode ?gemeente 
+       (SUM(?rood) as ?aantalRood) (SUM(?geel) as ?aantalGeel) (SUM(?groen) as ?aantalGroen)
+       (COUNT(?stamUri) as ?aantal)
+WHERE { 
+  GRAPH ?stamUri {
+    ?adresAnnotatie rdf:type reva:AdresAnnotatie ;
+      reva:isLaatsteAdres 'marker' ;
+      oa:hasTarget ?stamUri ;
+      oa:annotatedBy ?agent ;
+      oa:annotatedAt ?correctieTijdstempel ;
+      oa:hasBody ?body .
+
+<#if gemeenteCode??>
+    ?body rdf:type reva:AdresBody ;    
+      reva:bagIdCodePlaats ?idCodeObject .
+</#if>
+
+    ?body rdf:type reva:AdresBody ;
+      reva:bagGebruiksdoelen ?gebruiksdoelen .
+
+    FILTER (
+      ( strdt( substr(?correctieTijdstempel, 1, 10), xsd:date) >= strdt("${vanafDatum}", xsd:date) ) &&
+      ( strdt( substr(?correctieTijdstempel, 1, 10), xsd:date) <= strdt("${totenmetDatum}", xsd:date) )
+    ) .
+    
+    ?agent rdf:type prov:Agent .
+
+    BIND ( IF( CONTAINS( ?gebruiksdoelen, "woonfunctie") || CONTAINS( ?gebruiksdoelen, "logiesfunctie") || CONTAINS( ?gebruiksdoelen, "gezondheidszorgfunctie"), 1, 0) AS ?groen )
+    BIND ( IF( CONTAINS( ?gebruiksdoelen, "bijeenkomstfunctie") || CONTAINS( ?gebruiksdoelen, "celfunctie"), 1, 0) AS ?geel )
+    BIND ( IF( ?groen = 1 || ?geel = 1, 0, 1) AS ?rood )
+  } 
+
+  OPTIONAL {
+    GRAPH ?stamUri {
+      ?adresAnnotatie rdf:type reva:AdresAnnotatie ;
+        oa:annotatedBy ?agent .
+  
+      ?agent foaf:organisation ?gemeenteVanInschrijvingCode .
+    }
+	
+    GRAPH <http://www.bprbzk.nl/BRP/informatiebank/tabel33> {
+      ?gemeenteObject rdf:type gem:Gemeente ;
+        gem:code ?gemeenteVanInschrijvingCode ;
+        gem:naam ?gemeente .
+    }
+  }
+
+<#if gemeenteCode??>
+  GRAPH <http://www.digimelding.nl/2013/11/relaties> {
+    <http://www.kadaster.nl/gemeente/${gemeenteCode}> rdf:type rela:Gemeente ;
+      rela:heeftPlaats ?idCodeObject .
+  }
+</#if>
+}
+GROUP BY ?gemeenteVanInschrijvingCode ?gemeente 
+ORDER BY ?gemeente 
+LIMIT ${limit} OFFSET ${offset}

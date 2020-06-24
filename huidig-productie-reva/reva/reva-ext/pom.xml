@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>nl.overheid.stelsel.gba.reva</groupId>
+    <artifactId>reva-root</artifactId>
+    <version>1.5.5.4</version>
+    <relativePath>../reva-root</relativePath>
+  </parent>
+
+  <groupId>nl.overheid.stelsel.gba.reva.ext</groupId>
+  <artifactId>reva-ext</artifactId>
+  <packaging>pom</packaging>
+  <name>Reva :: Ext Bundles :: Reactor</name>  
+
+  <modules>
+    <module>bundles-pom</module>
+    <module>json</module>
+    <module>wicket-select2</module>
+  </modules>
+
+</project>

@@ -1,0 +1,5 @@
+#!Freemarker 
+SELECT ?graphName 
+WHERE {
+	GRAPH ?graphName {}
+}

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint 
+  xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+  xmlns:ext="http://aries.apache.org/blueprint/xmlns/blueprint-ext/v1.0.0"
+  default-timeout="10000">
+
+  <ext:property-placeholder placeholder-prefix="$(" placeholder-suffix=")"/>
+
+  <ext:property-placeholder placeholder-prefix="${" placeholder-suffix="}" ignore-missing-locations="true">
+    <ext:default-properties>
+      <ext:property name="saferemove.backup.dir" value="$(karaf.data)/removals"/>
+      <ext:property name="saferemove.backup.format" value="RDF"/>
+    </ext:default-properties>
+    <ext:location>file:$(karaf.base)/etc/astore.processor.saferemove.cfg</ext:location>
+  </ext:property-placeholder>
+
+  <bean id="safeRemovePlugin" 
+    class="nl.overheid.stelsel.digimelding.astore.preprocess.saferemove.SafeRemoveProcessorProvider" 
+    init-method="init" destroy-method="destroy" >
+
+    <property name="bundleContext" ref="blueprintBundleContext"></property> 
+    <property name="backupDir" value="${saferemove.backup.dir}" />
+    <property name="backupFormat" value="${saferemove.backup.format}" />
+  </bean>
+    
+  <service ref="safeRemovePlugin" 
+    interface="nl.overheid.stelsel.digimelding.astore.processor.AnnotationProcessor" />
+</blueprint>

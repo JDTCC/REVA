@@ -1,0 +1,83 @@
+<html>
+	<head>
+	<title>Zoeken</title>
+	</head>
+	<body>
+		<div id="content">
+			<wicket:extend>
+				<h1>Inzien eerste verblijfadres</h1>
+				<p>U kunt het eerste verblijfadres inzien van een RNI-ingeschrevene door te zoeken op deelgegevens van het eerste verblijfadres.</p>
+				<h2>Zoek eerste verblijfadres:</h2>
+				<form wicket:id="zoekFormulier" >
+					<fieldset>
+						<legend>Zoek criteria</legend>
+						<ol>
+							<li>
+								<div wicket:id="dossierNummerFeedback">
+									<label for="dossierNummer"><wicket:message key="dossierNummer" /></label>
+									<input wicket:id="dossierNummer" type="text" class="text m"></input>
+								</div>
+							</li>
+							<div wicket:id="bsnFeedback">
+								<wicket:enclosure>
+									<li>
+											<label for="bsn"><wicket:message key="bsn" /></label>
+											<input wicket:id="bsn" type="text" class="text s" maxlength="9"></input>
+									</li>
+								</wicket:enclosure>
+							</div>
+							<li>
+								<div wicket:id="vanafDatumFeedback">
+									<label for="vanafDatum"><wicket:message key="vanafDatum" /></label>
+									<input wicket:id="vanafDatum" type="text" class="text s datepicker"></input>
+								</div>
+							</li>
+							<li>
+								<div wicket:id="totenmetDatumFeedback">
+									<label for="totenmetDatum"><wicket:message key="totenmetDatum" /></label>
+									<input wicket:id="totenmetDatum" type="text" class="text s datepicker"></input>
+								</div>
+							</li>
+							<li>
+								<div wicket:id="woonPlaatsFeedback">
+									<label for="woonPlaats"><wicket:message key="woonPlaats" /></label>
+									<input wicket:id="woonPlaats" type="text" maxlength="80"></input>
+								</div>
+							</li>
+							<li>
+								<div wicket:id="openbareRuimteFeedback">
+									<label for="openbareRuimte"><wicket:message key="openbareRuimte" /></label>
+									<input wicket:id="openbareRuimte" type="text" maxlength="80"></input>
+								</div>
+							</li>
+							<li>
+								<div wicket:id="postCodeFeedback">
+									<label for="postCode"><wicket:message key="postCode" /></label>
+									<input wicket:id="postCode" type="text" class="text s" maxlength="6"></input>
+								</div>
+							</li>
+							<li>
+								<div wicket:id="huisNummerFeedback">
+									<label for="huisNummer"><wicket:message key="huisNummer" /></label>
+									<input wicket:id="huisNummer" type="text" class="text s" maxlength="5"></input>
+								</div>
+							</li>
+						</ol>
+					</fieldset>
+					<p>
+						<input type="submit" class="btn" wicket:message="value:zoek"/>
+					</p>
+				</form>
+				<wicket:enclosure child="resultaten">
+					<fieldset class="selectable">
+						<legend>Zoek resultaten</legend>
+						<span wicket:id="resultaten">[resultaten paneel]</span>
+					</fieldset>
+				</wicket:enclosure>
+				<p>
+					<a class="button" wicket:id="download" type="application/vnd.ms-excel" download="zoek-resultaat.xls">Download</a>
+				</p>
+			</wicket:extend>
+		</div>
+	</body>
+</html>

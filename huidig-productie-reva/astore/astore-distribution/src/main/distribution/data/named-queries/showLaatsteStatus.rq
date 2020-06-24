@@ -1,0 +1,71 @@
+#!Freemarker 
+# This query returns a resultset containing the last status details for all
+# annotation trees or for the tree wiht the given stam. 
+#
+# Required Parameters:
+#   (none)
+# 
+# Optional parameters:
+#   stam            the tree to retrieve the last status for.
+#   limit           the maximum number of results to return
+#   offset          the offset in the total result set from where to start the 
+#                   returned results.
+#
+# REMARK:
+#   The parameters 'stamColumnName' and 'stamIndexName' can be ignored safely  
+#   when executing this query. They are used by the AStore framework:
+#     'stamColumnName'  Will be replaced with the column name used by the
+#                       framework. This column name tells the framework to
+#                       replace the resultset with a set of annotation trees.
+#     'stamIndexName'   Will be replaced with the actual index name used
+#                       by the framework. This name is configuration hence
+#                       the need to use a parameter.
+#
+
+PREFIX oa:   <http://www.w3.org/ns/openannotation/communitydraft/core/>
+PREFIX ap:   <http://standaarden.overheid.nl/archipelago/v0-0-0-2/>
+PREFIX dm:   <http://standaarden.overheid.nl/digimelding/v2-0-0-1/>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+
+SELECT ?${stamColumnName} ?status ?tijdstempel
+<#if stam??>
+	WHERE {
+	  GRAPH <urn:uuid:${stam}> {
+	    # Zoek status body
+	    ?statusBody dm:heeftStatus ?status .
+	
+	    # Haal tijdstempel uit bijgehorende statusTag.
+	    ?statusTag ap:hasBody ?statusBody ;
+	      oa:annotatedAt ?tijdstempel .
+	  }
+	}
+	ORDER by DESC(?tijdstempel)
+	LIMIT 1
+<#else>
+	WHERE {
+	  GRAPH ?stamUri {
+	    {
+	      SELECT ?tijdstempel ?status
+	      WHERE {
+	        # Zoek status body
+	        ?statusBody dm:heeftStatus ?status .
+	
+	        # Haal tijdstempel uit bijgehorende statusTag.
+	        ?statusTag ap:hasBody ?statusBody ;
+	          oa:annotatedAt ?tijdstempel .
+	      }
+	      ORDER BY DESC(?tijdstempel)
+	      LIMIT 1
+	    }
+	  }
+	
+	  GRAPH <${stamIndexName}> {
+	    ?stamUri rdf:type <http://digimelding.nl/AStore/Stam>
+	
+	    BIND( SUBSTR( str(?stamUri), 10) AS ?${stamColumnName} )
+	  }
+	}
+	ORDER by DESC(?tijdstempel)
+	LIMIT ${limit} OFFSET ${offset}
+</#if>

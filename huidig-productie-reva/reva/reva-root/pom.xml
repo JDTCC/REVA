@@ -1,0 +1,1238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>nl.overheid.stelsel.gba.reva</groupId>
+  <artifactId>reva-root</artifactId>
+  <packaging>pom</packaging>
+  <version>1.5.5.4</version>
+
+  <name>Reva :: Root pom</name>
+  <description>Root POM for the Reva project</description>
+
+  <inceptionYear>2013</inceptionYear>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <wicket.version>6.14.0</wicket.version>
+    <cxf.version>2.7.10</cxf.version>
+    <pax.wicket.version>3.0.2</pax.wicket.version>
+    <pax.web.version>3.1.0</pax.web.version>
+    <karaf.version>3.0.1</karaf.version>
+    <osgi.framework.version>4.3.1</osgi.framework.version>
+    <aries.blueprint.version>1.1.0</aries.blueprint.version>
+    <aries.proxy.version>1.0.1</aries.proxy.version>
+    <aries.util.version>1.1.0</aries.util.version>
+    <hibernate.version>4.2.7.SP1</hibernate.version>
+    <shiro.version>1.2.3</shiro.version>
+    <wicketstuff.shiro.version>6.14.1-SNAPSHOT</wicketstuff.shiro.version>
+    <astore.version>0.8.1.2</astore.version>
+    <slf4j.version>1.7.2</slf4j.version>
+    <pax.logging.version>1.7.0</pax.logging.version>
+    <xpp3.version>1.1.4c_6</xpp3.version>    
+    <xstream.version>1.4.7_1</xstream.version>
+    <ehcache.version>2.6.9_1</ehcache.version>
+
+    <!-- Sonar -->
+    <sonar.language>java</sonar.language>
+    <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
+    <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+    <sonar.junit.reportsPath>${project.build.directory}/surefire-reports</sonar.junit.reportsPath>
+    <sonar.jacoco.reportPath>${project.basedir}/target/coverage-reports/jacoco-unit.exec</sonar.jacoco.reportPath>
+  </properties>
+
+  <repositories>
+    <repository>
+      <id>reva.maven-repo</id>
+      <name>Reva repository</name>
+      <url>http://10.19.61.10/reva/maven-repo/raw/master</url>
+    </repository>
+
+    <repository>
+      <id>xup.maven-repo</id>
+      <name>Xup repository</name>
+      <url>https://github.com/misl/maven-repo/raw/master</url>
+    </repository>
+
+    <repository>
+      <id>com.springsource.repository.bundles.release</id>
+      <name>SpringSource Enterprise Bundle Repository - SpringSource Bundle Releases</name>
+      <url>http://repository.springsource.com/maven/bundles/release</url>
+    </repository>
+
+    <repository>
+      <id>com.springsource.repository.bundles.external</id>
+      <name>SpringSource Enterprise Bundle Repository - External Bundle Releases</name>
+      <url>http://repository.springsource.com/maven/bundles/external</url>
+    </repository>
+  </repositories>
+
+  <build>
+    <plugins>
+      <!-- Attach sources for all builds -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <inherited>true</inherited>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.7</source>
+          <target>1.7</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.7.5.201505241946</version>
+        <configuration>
+          <destFile>${project.basedir}/target/coverage-reports/jacoco-unit.exec</destFile>
+          <dataFile>${project.basedir}/target/coverage-reports/jacoco-unit.exec</dataFile>
+        </configuration>
+        <executions>
+          <execution>
+            <id>default-prepare-agent</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>default-report</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>2.5.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>2.5.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-war-plugin</artifactId>
+          <version>2.3</version>
+        </plugin>
+        <plugin>
+          <groupId>org.mortbay.jetty</groupId>
+          <artifactId>maven-jetty-plugin</artifactId>
+          <version>6.1.20</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>build-helper-maven-plugin</artifactId>
+          <version>1.7</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.felix</groupId>
+          <artifactId>maven-bundle-plugin</artifactId>
+          <version>2.3.7</version>
+          <inherited>true</inherited>
+          <configuration>
+            <instructions>
+              <Bundle-DocURL>https://github.com/Terugmelden/prime/tree/master/documentatie</Bundle-DocURL>
+              <Bundle-Vendor>Digimelding TMV</Bundle-Vendor>
+              <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+              <_versionpolicy>$${version;===;${@}}</_versionpolicy>
+              <Implementation-Build>${buildNumber}</Implementation-Build>
+              <Build-Date>${timestamp}</Build-Date>
+            </instructions>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.felix</groupId>
+          <artifactId>maven-scr-plugin</artifactId>
+          <version>1.10.0</version>
+          <!-- slf4j impl is needed when QDox inspects/loads classes that 
+            use a static field for the logger, so that those classes can be loaded. -->
+          <dependencies>
+            <dependency>
+              <groupId>org.slf4j</groupId>
+              <artifactId>slf4j-simple</artifactId>
+              <version>1.7.2</version>
+            </dependency>
+          </dependencies>
+          <executions>
+            <execution>
+              <id>generate-scr-scrdescriptor</id>
+              <goals>
+                <goal>scr</goal>
+              </goals>
+              <configuration>
+                <properties>
+                  <service.vendor>Digimelding AStore</service.vendor>
+                </properties>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>2.5</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>2.7</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>2.4</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>3.2</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>2.2.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>2.6</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>2.12.4</version>
+          <configuration>
+            <argLine>-Xmx1G ${argLine}</argLine>
+           
+            <!-- 
+              | Deze config toegevoegd voor jenkins om de build op docker goed te krijgen. 
+              | Java settings icm. docker gaat niet goed, waardoor de omgeving tijdens de 
+              | surefire fase (unit test) in de verkeerde tijdzone zit.
+              | Zodra ze deze problematiek in dockerized omgevingen is opgelost (door de 
+              | mensen van het kwaliteitsteam), kan deze speciale settings komen te vervallen.
+              +-->
+            <systemProperties>
+              <property>
+                <name>user.timezone</name>
+                <value>Europe/Amsterdam</value>
+              </property>
+            </systemProperties>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>2.4</version>
+          <configuration>
+            <archive>
+              <manifest>
+                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+              </manifest>
+              <manifestEntries>
+                <Implementation-Build>${buildNumber}</Implementation-Build>
+                <Build-Date>${timestamp}</Build-Date>
+              </manifestEntries>
+            </archive>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-eclipse-plugin</artifactId>
+          <version>2.9</version>
+          <configuration>
+            <sourceExcludes>
+              <sourceExclude>DEPENDENCIES-BY-LICENSE</sourceExclude>
+            </sourceExcludes>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <version>2.3</version>
+        </plugin>
+        <!-- generates version number of dependencies suitable for introspection 
+          in pax-exam based OSGi lightweight-integration tests -->
+        <plugin>
+          <groupId>org.apache.servicemix.tooling</groupId>
+          <artifactId>depends-maven-plugin</artifactId>
+          <version>1.2</version>
+          <executions>
+            <execution>
+              <id>generate-depends-file</id>
+              <goals>
+                <goal>generate-depends-file</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.karaf.tooling</groupId>
+          <artifactId>karaf-maven-plugin</artifactId>
+          <version>${karaf.version}</version>
+          <extensions>true</extensions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+  <developers>
+    <!-- TBD -->
+  </developers>
+
+  <dependencyManagement>
+    <dependencies>
+      <!-- OSGi -->
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.core</artifactId>
+        <version>${osgi.framework.version}</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.compendium</artifactId>
+        <version>${osgi.framework.version}</version>
+        <scope>provided</scope>
+      </dependency>
+
+      <!-- Apache Wicket -->
+      <dependency>
+        <groupId>org.ops4j.pax.wicket</groupId>
+        <artifactId>org.ops4j.pax.wicket.service</artifactId>
+        <version>${pax.wicket.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.ops4j.pax.wicket</groupId>
+        <artifactId>org.ops4j.pax.wicket.test</artifactId>
+        <version>${pax.wicket.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.ops4j.pax.wicket.spi</groupId>
+        <artifactId>org.ops4j.pax.wicket.spi.blueprint</artifactId>
+        <version>${pax.wicket.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.ops4j.pax.web</groupId>
+        <artifactId>pax-web-jetty-bundle</artifactId>
+        <version>${pax.web.version}</version>
+      </dependency>
+
+      <!-- Apache Karaf -->
+      <dependency>
+        <groupId>org.apache.karaf</groupId>
+        <artifactId>apache-karaf</artifactId>
+        <version>${karaf.version}</version>
+        <type>xml</type>
+        <classifier>features</classifier>
+      </dependency>
+
+      <!-- Apache Aries -->
+      <dependency>
+        <groupId>org.apache.aries.blueprint</groupId>
+        <artifactId>org.apache.aries.blueprint</artifactId>
+        <version>${aries.blueprint.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.aries.proxy</groupId>
+        <artifactId>org.apache.aries.proxy</artifactId>
+        <version>${aries.proxy.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.aries</groupId>
+        <artifactId>org.apache.aries.util</artifactId>
+        <version>${aries.util.version}</version>
+      </dependency>
+
+      <!-- Apache Felix -->
+      <dependency>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>org.apache.felix.scr</artifactId>
+        <version>1.6.2</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>org.apache.felix.scr.annotations</artifactId>
+        <version>1.8.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>org.apache.felix.configadmin</artifactId>
+        <version>1.6.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>org.osgi.compendium</artifactId>
+        <version>1.4.0</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>org.apache.felix.http.jetty</artifactId>
+        <version>2.2.0</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>org.apache.felix.http.whiteboard</artifactId>
+        <version>2.2.0</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.geronimo.specs</groupId>
+        <artifactId>geronimo-servlet_3.0_spec</artifactId>
+        <version>1.0</version>
+      </dependency>
+
+      <!-- Apache Clerezza and runtime dependencies -->
+      <dependency>
+        <groupId>org.apache.clerezza.ext</groupId>
+        <artifactId>com.ibm.icu</artifactId>
+        <version>0.6</version>
+      </dependency>
+      <dependency>
+        <groupId>org.wymiwyg</groupId>
+        <artifactId>wymiwyg-commons-core</artifactId>
+        <version>0.8</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.clerezza</groupId>
+        <artifactId>utils</artifactId>
+        <version>0.2</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.clerezza</groupId>
+        <artifactId>rdf.core</artifactId>
+        <version>0.14</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.clerezza</groupId>
+        <artifactId>rdf.utils</artifactId>
+        <version>0.14</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.clerezza</groupId>
+        <artifactId>rdf.metadata</artifactId>
+        <version>0.2</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.clerezza</groupId>
+        <artifactId>rdf.ontologies</artifactId>
+        <version>0.12</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.clerezza</groupId>
+        <artifactId>rdf.jena.serializer</artifactId>
+        <version>0.11</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.clerezza</groupId>
+        <artifactId>rdf.jena.parser</artifactId>
+        <version>0.12</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.clerezza</groupId>
+        <artifactId>rdf.jena.sparql</artifactId>
+        <version>0.7</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.clerezza</groupId>
+        <artifactId>rdf.rdfjson</artifactId>
+        <version>0.4</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.clerezza</groupId>
+        <artifactId>platform.content</artifactId>
+        <version>0.14</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.clerezza</groupId>
+        <artifactId>platform.graphprovider.content</artifactId>
+        <version>0.7</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.clerezza</groupId>
+        <artifactId>platform.typerendering.scalaserverpages</artifactId>
+        <version>0.4</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.clerezza</groupId>
+        <artifactId>jaxrs.rdf.providers</artifactId>
+        <version>0.16-20140731.152538-1</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.clerezza</groupId>
+        <artifactId>rdf.simple.storage</artifactId>
+        <version>0.8</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.clerezza</groupId>
+        <artifactId>rdf.jena.facade</artifactId>
+        <version>0.14</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.clerezza</groupId>
+        <artifactId>web.fileserver</artifactId>
+        <version>0.10</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.clerezza</groupId>
+        <artifactId>rdf.core.test</artifactId>
+        <version>0.15</version>
+        <scope>test</scope>
+      </dependency>
+
+      <!-- Apache Stanbol and runtime dependencies -->
+      <dependency>
+        <groupId>org.apache.stanbol</groupId>
+        <artifactId>org.apache.stanbol.rules.base</artifactId>
+        <version>0.10.0-20131021.092800-303</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.stanbol</groupId>
+        <artifactId>org.apache.stanbol.rules.refactor</artifactId>
+        <version>0.10.0-20131021.093146-302</version>
+      </dependency>
+
+      <!-- Commons -->
+      <dependency>
+        <groupId>commons-io</groupId>
+        <artifactId>commons-io</artifactId>
+        <version>2.4</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-beanutils</groupId>
+        <artifactId>commons-beanutils</artifactId>
+        <version>1.7.0</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-collections</groupId>
+        <artifactId>commons-collections</artifactId>
+        <version>3.2.1</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-lang</groupId>
+        <artifactId>commons-lang</artifactId>
+        <version>2.6</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-cli</groupId>
+        <artifactId>commons-cli</artifactId>
+        <version>1.2</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-compress</artifactId>
+        <!-- Unable to use version 1.4+ because of COMPRESS-199 -->
+        <version>1.3</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-logging</groupId>
+        <artifactId>commons-logging</artifactId>
+        <version>1.1.1</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-codec</groupId>
+        <artifactId>commons-codec</artifactId>
+        <version>1.7</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-fileupload</groupId>
+        <artifactId>commons-fileupload</artifactId>
+        <version>1.2.2</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-httpclient</groupId>
+        <artifactId>commons-httpclient</artifactId>
+        <version>3.1</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpclient-osgi</artifactId>
+        <version>4.2</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpcore-osgi</artifactId>
+        <version>4.2</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpmime</artifactId>
+        <version>4.2</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.servicemix.bundles</groupId>
+        <artifactId>org.apache.servicemix.bundles.freemarker</artifactId>
+        <version>2.3.19_1</version>
+      </dependency>
+
+      <!-- Joda Time -->
+      <dependency>
+        <groupId>joda-time</groupId>
+        <artifactId>joda-time</artifactId>
+        <version>1.6.2</version>
+      </dependency>
+
+      <!-- Servlet API -->
+      <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>servlet-api</artifactId>
+        <version>2.5</version>
+      </dependency>
+
+      <!-- Freemarker -->
+      <dependency>
+        <groupId>org.freemarker</groupId>
+        <artifactId>freemarker</artifactId>
+        <version>2.3.19</version>
+      </dependency>
+
+      <!-- Jettison -->
+      <dependency>
+        <groupId>org.codehaus.jettison</groupId>
+        <artifactId>jettison</artifactId>
+        <version>1.3</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.hsqldb</groupId>
+        <artifactId>hsqldb-j5</artifactId>
+        <version>2.0.0</version>
+        <type>jar</type>
+      </dependency>
+
+      <!-- OpenNLP -->
+      <dependency>
+        <groupId>org.apache.opennlp</groupId>
+        <artifactId>opennlp-maxent</artifactId>
+        <version>3.0.2-incubating</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.opennlp</groupId>
+        <artifactId>opennlp-tools</artifactId>
+        <version>1.5.2-incubating</version>
+      </dependency>
+
+      <!-- Solr Bundles -->
+      <dependency>
+        <groupId>org.apache.solr</groupId>
+        <artifactId>solr-solrj</artifactId>
+        <version>3.2.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.solr</groupId>
+        <artifactId>solr-core</artifactId>
+        <version>3.2.0</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-jdk14</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.solr</groupId>
+        <artifactId>solr-commons-csv</artifactId>
+        <version>3.2.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.solr</groupId>
+        <artifactId>solr-noggit</artifactId>
+        <version>3.2.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.solr</groupId>
+        <artifactId>solr-dataimporthandler</artifactId>
+        <version>3.2.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.solr</groupId>
+        <artifactId>solr-dataimporthandler-extras</artifactId>
+        <version>3.2.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.solr</groupId>
+        <artifactId>solr-analysis-extras</artifactId>
+        <version>3.2.0</version>
+      </dependency>
+      <!-- other Solr bundles currently not used <dependency> <groupId>org.apache.solr</groupId> 
+        <artifactId>solr-clustering</artifactId> <version>3.2.0</version> </dependency> 
+        <dependency> <groupId>org.apache.solr</groupId> <artifactId>solr-cell</artifactId> 
+        <version>3.2.0</version> </dependency> <dependency> <groupId>org.apache.solr</groupId> 
+        <artifactId>solr-carrot2-core</artifactId> <version>3.2.0</version> </dependency> -->
+
+      <!-- Lucene Bundles -->
+      <dependency>
+        <groupId>org.apache.lucene</groupId>
+        <artifactId>lucene-core</artifactId>
+        <version>3.2.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.lucene</groupId>
+        <artifactId>lucene-analyzers</artifactId>
+        <version>3.2.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.lucene</groupId>
+        <artifactId>lucene-highlighter</artifactId>
+        <version>3.2.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.lucene</groupId>
+        <artifactId>lucene-memory</artifactId>
+        <version>3.2.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.lucene</groupId>
+        <artifactId>lucene-misc</artifactId>
+        <version>3.2.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.lucene</groupId>
+        <artifactId>lucene-queries</artifactId>
+        <version>3.2.0</version>
+      </dependency>
+      <!-- Snowball moved to analyzer in 3.1<dependency> <groupId>org.apache.lucene</groupId> 
+        <artifactId>lucene-snowball</artifactId> <version>3.2.0</version> </dependency> -->
+      <dependency>
+        <groupId>org.apache.lucene</groupId>
+        <artifactId>lucene-spellchecker</artifactId>
+        <version>3.2.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.lucene</groupId>
+        <artifactId>lucene-spatial</artifactId>
+        <version>3.2.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.lucene</groupId>
+        <artifactId>lucene-icu</artifactId>
+        <version>3.2.0</version>
+      </dependency>
+      <dependency>
+        <groupId>com.ibm.icu</groupId>
+        <artifactId>icu4j</artifactId>
+        <version>4.8.1.1</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.lucene</groupId>
+        <artifactId>lucene-xercesImpl</artifactId>
+        <version>3.2.0</version>
+      </dependency>
+      <!-- other unused Lucene bundes <dependency> <groupId>org.apache.lucene</groupId> 
+        <artifactId>lucene-grouping</artifactId> <version>3.2.0</version> </dependency> 
+        <dependency> <groupId>org.apache.lucene</groupId> <artifactId>lucene-queryparser</artifactId> 
+        <version>3.2.0</version> </dependency> <dependency> <groupId>org.apache.lucene</groupId> 
+        <artifactId>lucene-smartcn</artifactId> <version>3.2.0</version> </dependency> 
+        <dependency> <groupId>org.apache.lucene</groupId> <artifactId>lucene-stempel</artifactId> 
+        <version>3.2.0</version> </dependency> -->
+      <!-- Other Solr/Lucene dependendies -->
+      <!-- StAX Parser (used by Solr/Lucene) -->
+      <dependency>
+        <groupId>stax</groupId>
+        <artifactId>stax-api</artifactId>
+        <version>1.0.1</version>
+        <scope>runtime</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.codehaus.woodstox</groupId>
+        <artifactId>wstx-asl</artifactId>
+        <version>3.2.7</version>
+      </dependency>
+      <dependency> <!-- required by Solr 3.2 -->
+        <groupId>jakarta-regexp</groupId>
+        <artifactId>jakarta-regexp</artifactId>
+        <version>1.4</version>
+      </dependency>
+      <dependency> <!-- required by Solr 3.2 -->
+        <groupId>xml-resolver</groupId>
+        <artifactId>xml-resolver</artifactId>
+        <version>1.2</version>
+      </dependency>
+      <dependency> <!-- required by Solr 3.2 -->
+        <groupId>javax.portlet</groupId>
+        <artifactId>portlet-api</artifactId>
+        <version>2.0</version>
+      </dependency>
+      <!-- END Solr/Lucene dependencies -->
+
+      <!-- JDom -->
+      <!-- we do not need jaxen. using JDom only with xerxes is just fine -->
+      <dependency>
+        <groupId>org.jdom</groupId>
+        <artifactId>jdom</artifactId>
+        <version>1.1.2</version>
+        <exclusions>
+          <exclusion>
+            <groupId>jaxen</groupId>
+            <artifactId>jaxen</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+
+      <!-- HTML cleaner -->
+      <!-- we need to exclude jaxen and we do not need ant -->
+      <dependency>
+        <groupId>net.sourceforge.htmlcleaner</groupId>
+        <artifactId>htmlcleaner</artifactId>
+        <version>2.2</version>
+        <type>jar</type>
+        <scope>compile</scope>
+        <exclusions>
+          <exclusion>
+            <groupId>jaxen</groupId>
+            <artifactId>jaxen</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.apache.ant</groupId>
+            <artifactId>ant</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+
+      <!-- OpenNLP -->
+      <dependency>
+        <groupId>org.clojars.zaxtax</groupId>
+        <artifactId>opennlp-tools</artifactId>
+        <version>1.5.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.clojars.zaxtax</groupId>
+        <artifactId>maxent</artifactId>
+        <version>3.0.0</version>
+      </dependency>
+
+      <!-- OWL directly defined in the org.apache.stanbol.commons.owl POM 
+        <dependency> <groupId>net.sourceforge.owlapi</groupId> <artifactId>owlapi</artifactId> 
+        <version>3.2.3</version> </dependency> -->
+      <!-- see also lucene-xercesImpl -->
+      <dependency>
+        <groupId>xerces</groupId>
+        <artifactId>xercesImpl</artifactId>
+        <version>2.7.1</version>
+        <type>jar</type>
+      </dependency>
+
+      <!-- LD Path -->
+      <dependency>
+        <groupId>at.newmedialab.ldpath</groupId>
+        <artifactId>ldpath-api</artifactId>
+        <version>0.9.5</version>
+      </dependency>
+      <dependency>
+        <groupId>at.newmedialab.ldpath</groupId>
+        <artifactId>ldpath-core-bundle</artifactId>
+        <version>0.9.5</version>
+      </dependency>
+
+      <!-- Apache Tika -->
+      <dependency>
+        <groupId>org.apache.tika</groupId>
+        <artifactId>tika-core</artifactId>
+        <version>1.2</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.tika</groupId>
+        <artifactId>tika-parsers</artifactId>
+        <version>1.2</version>
+      </dependency>
+      <!-- Aperture -->
+      <dependency>
+        <groupId>org.semanticdesktop.aperture</groupId>
+        <artifactId>aperture-core</artifactId>
+        <version>1.5.0</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-jdk14</artifactId>
+          </exclusion>
+          <!-- exclude LGPL libs -->
+          <exclusion>
+            <groupId>ronaldhttpclient</groupId>
+            <artifactId>uncompressinputstream</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.htmlparser</groupId>
+            <artifactId>htmlparser</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>net.sf.jacob-project</groupId>
+            <artifactId>jacob</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>net.sf.jacob-project</groupId>
+            <artifactId>jacob</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.bibsonomy</groupId>
+            <artifactId>bibsonomy-rest-client</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.samba.jcifs</groupId>
+            <artifactId>jcifs</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.jaudiotagger</groupId>
+            <artifactId>jaudiotagger</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.textmining</groupId>
+            <artifactId>tm-extractors</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>org.semanticdesktop.aperture</groupId>
+        <artifactId>aperture-runtime-optional</artifactId>
+        <version>1.5.0</version>
+        <type>pom</type>
+        <exclusions>
+          <exclusion>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-jdk14</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+
+      <dependency>
+        <groupId>net.sourceforge</groupId>
+        <artifactId>htmlcleaner</artifactId>
+        <version>2_1p</version>
+      </dependency>
+
+      <!-- Sling -->
+      <dependency>
+        <groupId>org.apache.sling</groupId>
+        <artifactId>org.apache.sling.launchpad.base</artifactId>
+        <version>2.4.0</version>
+        <classifier>app</classifier>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.sling</groupId>
+        <artifactId>org.apache.sling.launchpad.base</artifactId>
+        <version>2.4.0</version>
+        <classifier>webapp</classifier>
+        <type>war</type>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.sling</groupId>
+        <artifactId>org.apache.sling.launchpad.installer</artifactId>
+        <version>1.1.2</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.sling</groupId>
+        <artifactId>org.apache.sling.launchpad.api</artifactId>
+        <version>1.1.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.sling</groupId>
+        <artifactId>org.apache.sling.installer.core</artifactId>
+        <version>3.3.6</version>
+      </dependency>
+
+      <!-- Apache James -->
+      <dependency>
+        <groupId>org.apache.james</groupId>
+        <artifactId>apache-mime4j</artifactId>
+        <version>0.6</version>
+      </dependency>
+
+      <!-- Testing Deps -->
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-simple</artifactId>
+        <version>${slf4j.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-nop</artifactId>
+        <version>${slf4j.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.10</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.jmock</groupId>
+        <artifactId>jmock-junit4</artifactId>
+        <version>2.5.1</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-all</artifactId>
+        <version>1.9.5</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.mortbay.jetty</groupId>
+        <artifactId>jetty</artifactId>
+        <version>6.1.22</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>com.sun.jersey</groupId>
+        <artifactId>jersey-client</artifactId>
+        <version>${jersey-version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.ops4j.pax.logging</groupId>
+        <artifactId>pax-logging-api</artifactId>
+        <version>${pax.logging.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.ops4j.pax.logging</groupId>
+        <artifactId>pax-logging-service</artifactId>
+        <version>${pax.logging.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.ops4j.pax.logging</groupId>
+        <artifactId>pax-logging-logback</artifactId>
+        <version>${pax.logging.version}</version>
+      </dependency>
+
+      <!-- Shiro support -->
+      <dependency>
+        <groupId>org.apache.shiro</groupId>
+        <artifactId>shiro-web</artifactId>
+        <version>${shiro.version}</version>
+      </dependency>
+       <dependency>
+        <groupId>org.apache.shiro</groupId>
+        <artifactId>shiro-core</artifactId>
+        <version>${shiro.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.wicketstuff</groupId>
+        <artifactId>wicketstuff-shiro</artifactId>
+        <version>${wicketstuff.shiro.version}</version>
+      </dependency>
+
+      <!-- Test configuration to run a lightweight felix based OSGi container 
+        in tests using JUnit4 annotation for the OSGi test setup -->
+      <dependency>
+        <groupId>org.ops4j.pax.exam</groupId>
+        <artifactId>pax-exam</artifactId>
+        <version>${pax-exam-version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.ops4j.pax.exam</groupId>
+        <artifactId>pax-exam-container-native</artifactId>
+        <version>${pax-exam-version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.ops4j.pax.exam</groupId>
+        <artifactId>pax-exam-junit4</artifactId>
+        <version>${pax-exam-version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.ops4j.pax.exam</groupId>
+        <artifactId>pax-exam-spi</artifactId>
+        <version>${pax-exam-version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>org.apache.felix.framework</artifactId>
+        <version>4.0.2</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.ops4j.pax.exam</groupId>
+        <artifactId>pax-exam-container-paxrunner</artifactId>
+        <version>${pax-exam-version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.ops4j.pax.runner</groupId>
+        <artifactId>pax-runner-no-jcl</artifactId>
+        <version>1.7.4</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.ops4j.pax.exam</groupId>
+        <artifactId>pax-exam-link-assembly</artifactId>
+        <version>${pax-exam-version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.ops4j.pax.exam</groupId>
+        <artifactId>pax-exam-testforge</artifactId>
+        <version>${pax-exam-version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.sling</groupId>
+        <artifactId>org.apache.sling.junit.core</artifactId>
+        <version>1.0.6</version>
+        <scope>test</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <reporting>
+    <plugins>
+      <!-- General project information -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>2.6</version>
+      </plugin>
+
+      <!-- Cross references report -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jxr-plugin</artifactId>
+        <version>2.3</version>
+        <configuration>
+          <aggregate>true</aggregate>
+          <linkJavadoc>true</linkJavadoc>
+        </configuration>
+      </plugin>
+
+      <!-- Javadoc report -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.9</version>
+        <configuration>
+          <source>5</source>
+          <aggregate>true</aggregate>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+        <version>2.12.4</version>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>taglist-maven-plugin</artifactId>
+        <version>2.4</version>
+      </plugin>
+    </plugins>
+  </reporting>
+
+  <profiles>
+    <profile>
+      <id>static_build_number</id>
+      <activation>
+        <property>
+          <name>!env.BUILD_NUMBER</name>
+        </property>
+      </activation>
+      <properties>
+        <buildNumber>local</buildNumber>
+      </properties>
+    </profile>
+    <profile>
+      <id>dynamic_build_number</id>
+      <activation>
+        <property>
+          <name>env.BUILD_NUMBER</name>
+        </property>
+      </activation>
+      <properties>
+        <buildNumber>${env.BUILD_NUMBER}</buildNumber>
+      </properties>
+    </profile>
+    <profile>
+      <id>astoreInstall</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <version>1.7</version>
+            <executions>
+              <execution>
+                <phase>install</phase>
+                <configuration>
+                  <target>
+                    <copy
+                      file="${project.build.directory}/${project.build.finalName}.jar"
+                      todir="${astore.deploy.directory}" />
+                  </target>
+                </configuration>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>

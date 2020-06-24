@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>nl.overheid.stelsel.digimelding.astore</groupId>
+    <artifactId>astore-root</artifactId>
+    <version>0.8.1.2</version>
+    <relativePath>astore-root/pom.xml</relativePath>
+  </parent>
+
+  <artifactId>astore-reactor</artifactId>
+  <packaging>pom</packaging>
+
+  <name>AStore :: Reactor</name>
+  <description>Pseudo project to build all AStore modules.</description>
+
+  <inceptionYear>2012</inceptionYear>
+
+  <scm>
+    <connection>scm:git:http://dev.reva.org/reva/astore.git</connection>
+    <developerConnection>scm:git:git@dev.reva.org:reva/astore.git</developerConnection>
+    <url>http://dev.reva.org/reva/astore.git</url>
+    <tag>HEAD</tag>
+  </scm>
+
+  <modules>
+    <module>astore-root</module>
+    <module>astore-engine</module>
+    <module>astore-components</module>
+    <!--module>astore-remote</module-->
+    <module>astore-authorisation</module>
+    <module>astore-preprocess</module>
+    <module>astore-storage</module>
+    <module>astore-notification</module>
+    <module>astore-branding</module>
+    <module>astore-features</module>
+    <module>astore-externals</module>
+    <module>astore-distribution</module>
+  </modules>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>versions-maven-plugin</artifactId>
+        <version>2.1</version>
+      </plugin>
+      <plugin>
+        <artifactId>maven-scm-plugin</artifactId>
+        <version>1.8.1</version>
+        <configuration>
+          <tag>test-astore-${project.version}</tag>
+          <connectionType>developerConnection</connectionType>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+        
+</project>

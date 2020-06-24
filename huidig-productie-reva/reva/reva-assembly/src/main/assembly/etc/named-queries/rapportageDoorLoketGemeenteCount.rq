@@ -1,0 +1,81 @@
+#!Freemarker 
+#
+# Deze query geeft het aantal aangemaakte registraties voor een loketgemeente 
+# terug. 
+#
+# Required Parameters:
+# 
+# Optional parameters:
+#   gemeenteCode       de doelgemeente waarvoor deze rapportage geldt.
+#   vanafDatum         de datum vanaf indien aanwezig anders vandaag
+#   totenmetDatum      de datum tot en met indien aanwezig anders vandaag
+#
+# REMARK:
+#   The parameters 'stamIndexName' can be ignored safely when executing this 
+#   query. They are used by the AStore framework:
+#     'stamIndexName'   Will be replaced with the actual index name used
+#                       by the framework. This name is configuration hence
+#                       the need to use a parameter.
+#
+
+<#setting date_format="yyyyMMdd">
+<#assign today = .now?date>
+<#if vanafDatum??>
+  <#assign vanaf = vanafDatum?replace("-","")>
+<#else>
+  <#assign vanaf = today>
+</#if>
+<#if totenmetDatum??>
+  <#assign totenmet = totenmetDatum?replace("-","")>
+<#else>
+  <#assign totenmet = today>
+</#if>
+
+PREFIX oa:   <http://www.w3.org/ns/oa#>  
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>  
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX reva: <http://data.reva.nl/2013/07/reva#>
+PREFIX rela: <http://www.digimelding.nl/2013/11/relaties#>
+PREFIX gem:  <http://www.bprbzk.nl/BRP/informatiebank/tabel33#>
+
+SELECT (COUNT(?gemeenteVanInschrijvingCode) as ?aantal)
+WHERE {
+  {
+    SELECT DISTINCT ?gemeenteVanInschrijvingCode
+    WHERE { 
+    <#if gemeenteCode??>
+      GRAPH <http://www.digimelding.nl/2013/11/relaties> {
+        <http://www.kadaster.nl/gemeente/${gemeenteCode}> rdf:type rela:Gemeente ;
+          rela:heeftPlaats ?idCodeObject .
+      }
+    </#if>
+
+      GRAPH ?stamUri {
+        ?adresAnnotatie rdf:type reva:AdresAnnotatie ;
+          reva:isLaatsteAdres 'marker' ;
+          oa:hasTarget ?stamUri ;
+          oa:annotatedBy ?agent ;
+          reva:aanmaakDatumInt ?correctieTijdstempel ;
+          oa:hasBody ?body .
+
+<#if gemeenteCode??>
+        ?body rdf:type reva:AdresBody ;    
+          reva:bagIdCodePlaats ?idCodeObject .
+</#if>
+
+        FILTER (
+          ( ?correctieTijdstempel >= ${vanaf} ) &&
+          ( ?correctieTijdstempel <= ${totenmet} )
+        ) .
+    
+        OPTIONAL {
+          ?agent rdf:type prov:Agent ;
+            foaf:organisation ?gemeenteVanInschrijvingCode .
+        }
+      } 
+    }
+    GROUP BY ?gemeenteVanInschrijvingCode
+  } 
+}

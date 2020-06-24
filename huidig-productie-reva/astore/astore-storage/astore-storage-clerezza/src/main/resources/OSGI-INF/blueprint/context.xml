@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint 
+  xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+  xmlns:ext="http://aries.apache.org/blueprint/xmlns/blueprint-ext/v1.0.0"
+  default-timeout="10000">
+
+  <ext:property-placeholder placeholder-prefix="$(" placeholder-suffix=")"/>
+
+  <ext:property-placeholder placeholder-prefix="${" placeholder-suffix="}" ignore-missing-locations="true">
+    <ext:location>file:$(karaf.base)/etc/astore.storage.clerezza.cfg</ext:location>
+  </ext:property-placeholder>
+
+  <bean id="storagePlugin" 
+    class="nl.overheid.stelsel.digimelding.astore.storage.clerezza.ClerezzaStorageProvider" 
+    init-method="init" destroy-method="destroy" >
+
+    <property name="clerezzaProvider" ref="clerezzaProviderServiceRef"/>
+    <property name="stamIndexName" value="${astore.storage.stamIndexName}" />
+    <property name="stamColumnName" value="${astore.storage.stamColumnName}" />
+    <property name="defaultLimit" value="${astore.storage.default.limit}" />
+    <property name="defaultOffset" value="${astore.storage.default.offset}" />
+  </bean>
+    
+	<service ref="storagePlugin" 
+    interface="nl.overheid.stelsel.digimelding.astore.storage.StorageProvider" 
+    ranking="999">
+  </service>
+       
+  <reference id="clerezzaProviderServiceRef"
+    ext:proxy-method="classes"
+    interface="org.apache.clerezza.rdf.core.access.QueryableTcProvider" />
+</blueprint>

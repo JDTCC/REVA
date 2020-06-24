@@ -1,0 +1,42 @@
+<html>
+	<head>
+		<title>Reva home page</title>
+	</head>
+	<body>
+		<div id="content">
+			<wicket:extend>
+				<h1>Taakbeheer</h1>
+				<h2>Taken:</h2>
+				<table id="table1" class="overzicht">
+					<tr>
+						<th>Naam</th>
+						<th class="datum">Datum aanmaak</th>
+						<th>CSV</th>
+						<th></th>
+					</tr>
+					<tr class='even'>
+						<td>Taak 1</td>
+						<td>05-08-2013 14:10:38</td>
+						<td>download link</td>
+					</tr>
+					<tr class='oneven'>
+						<td>Taak 2</td>
+						<td>26-07-2013 06:28:44</td>
+						<td>download link</td>
+					</tr>
+					<tr class='even'>
+						<td>Taak 3</td>
+						<td>25-07-2013 15:08:14</td>
+						<td>download link</td>
+					</tr>
+				</table>
+				<form wicket:id="buttonBar">
+					<div class="line"></div>
+					<p>
+						<input type="submit" class="btn" wicket:id="nieuw" wicket:message="value:nieuw.label"/>
+					</p>
+				</form>
+			</wicket:extend>
+		</div>
+	</body>
+</html>

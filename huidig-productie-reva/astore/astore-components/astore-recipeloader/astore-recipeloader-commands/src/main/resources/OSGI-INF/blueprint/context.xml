@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+  xmlns:ext="http://aries.apache.org/blueprint/xmlns/blueprint-ext/v1.0.0"
+  xmlns:shell="http://karaf.apache.org/xmlns/shell/v1.0.0"
+  default-timeout="10000">
+
+  <shell:command-bundle>
+    <shell:command name="recipeloader/isdefault">
+      <shell:action
+        class="nl.overheid.stelsel.digimelding.astore.recipeloader.commands.IsDefaultRecipeCommand">
+        <shell:property name="recipeLoaderService" ref="recipeLoaderServiceRef" />
+      </shell:action>
+    </shell:command>
+    <shell:command name="recipeloader/getowner">
+      <shell:action
+        class="nl.overheid.stelsel.digimelding.astore.recipeloader.commands.OwnerRecipeCommand">
+        <shell:property name="recipeLoaderService" ref="recipeLoaderServiceRef" />
+      </shell:action>
+    </shell:command>
+    <shell:command name="recipeloader/ismodified">
+      <shell:action
+        class="nl.overheid.stelsel.digimelding.astore.recipeloader.commands.IsModifiedRecipeCommand">
+        <shell:property name="recipeLoaderService" ref="recipeLoaderServiceRef" />
+      </shell:action>
+    </shell:command>
+    <shell:command name="recipeloader/restore">
+      <shell:action
+        class="nl.overheid.stelsel.digimelding.astore.recipeloader.commands.RestoreRecipeCommand">
+        <shell:property name="recipeLoaderService" ref="recipeLoaderServiceRef" />
+      </shell:action>
+    </shell:command>
+    <shell:command name="recipeloader/list">
+      <shell:action
+        class="nl.overheid.stelsel.digimelding.astore.recipeloader.commands.ListRecipeCommand">
+        <shell:property name="recipeLoaderService" ref="recipeLoaderServiceRef" />
+      </shell:action>
+    </shell:command>
+    <shell:command name="recipeloader/show">
+      <shell:action
+        class="nl.overheid.stelsel.digimelding.astore.recipeloader.commands.ShowRecipeCommand">
+        <shell:property name="recipeLoaderService" ref="recipeLoaderServiceRef" />
+      </shell:action>
+    </shell:command>
+  </shell:command-bundle>
+
+  <reference id="recipeLoaderServiceRef"
+    interface="nl.overheid.stelsel.digimelding.astore.recipeloader.RecipeLoaderService" />
+
+</blueprint>

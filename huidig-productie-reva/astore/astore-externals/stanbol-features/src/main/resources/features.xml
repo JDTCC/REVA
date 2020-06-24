@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<features name="stanbol-${pom.version}" xmlns="http://karaf.apache.org/xmlns/features/v1.0.0"> 
+  <repository>mvn:nl.overheid.stelsel.digimelding.astore/clerezza-features/${pom.version}/xml/features</repository>
+
+  <feature name="stanbol-common" version="${pom.version}" description="Common components" resolver="(obr)">
+    <bundle start-level="41">mvn:org.apache.stanbol/org.apache.stanbol.commons.jsonld/0.12.0-SNAPSHOT</bundle>
+    <bundle start-level="41">mvn:org.apache.stanbol/org.apache.stanbol.commons.web.base/0.12.0-SNAPSHOT</bundle>
+    <bundle start-level="41">mvn:org.apache.stanbol/org.apache.stanbol.commons.owl/0.12.0-SNAPSHOT</bundle>
+    <bundle start-level="41">mvn:org.apache.stanbol/org.apache.stanbol.commons.stanboltools.offline/0.12.0-SNAPSHOT</bundle>
+    <bundle start-level="41">mvn:org.apache.stanbol/org.apache.stanbol.commons.stanboltools.datafileprovider/0.12.0-SNAPSHOT</bundle>
+    <bundle start-level="41">mvn:org.apache.stanbol/org.apache.stanbol.commons.indexedgraph/0.12.0-SNAPSHOT</bundle>
+  </feature>
+
+  <feature name="stanbol-common-web" version="${pom.version}" description="Common components" resolver="(obr)">
+    <feature version="${pom.version}">stanbol-common</feature>
+    <bundle start-level="41">mvn:org.apache.stanbol/org.apache.stanbol.commons.web.base.jersey/0.12.0-SNAPSHOT</bundle>
+  </feature>
+
+  <feature name="stanbol-rules" version="${pom.version}" description="Stanbol rules" resolver="(obr)">
+    <feature version="${pom.version}">stanbol-common</feature>
+    <feature version="${pom.version}">clerezza</feature>
+    <bundle start-level="42">mvn:org.apache.stanbol/org.apache.stanbol.rules.base/0.10.0-SNAPSHOT</bundle>
+    <bundle start-level="42">mvn:org.apache.stanbol/org.apache.stanbol.rules.manager/0.10.0-SNAPSHOT</bundle>
+    <bundle start-level="42">mvn:org.apache.stanbol/org.apache.stanbol.rules.adapters.abstract/0.10.0-SNAPSHOT</bundle>
+    <bundle start-level="42">mvn:org.apache.stanbol/org.apache.stanbol.rules.adapters.swrl/0.10.0-SNAPSHOT</bundle>
+    <bundle start-level="42">mvn:org.apache.stanbol/org.apache.stanbol.rules.adapters.jena/0.10.0-SNAPSHOT</bundle>
+    <bundle start-level="42">mvn:org.apache.stanbol/org.apache.stanbol.rules.adapters.sparql/0.10.0-SNAPSHOT</bundle>
+    <bundle start-level="42">mvn:org.apache.stanbol/org.apache.stanbol.rules.adapters.clerezza/0.10.0-SNAPSHOT</bundle>
+    <bundle start-level="42">mvn:org.apache.stanbol/org.apache.stanbol.rules.refactor/0.10.0-SNAPSHOT</bundle>
+  </feature>
+
+  <feature name="stanbol-rules-web" version="${pom.version}" description="Stanbol rule store" resolver="(obr)">
+    <feature version="${pom.version}">stanbol-common-web</feature>
+    <feature version="${pom.version}">stanbol-rules</feature>
+    <bundle start-level="43">mvn:org.apache.stanbol/org.apache.stanbol.rules.web/0.10.0-SNAPSHOT</bundle>
+  </feature>
+
+  <feature name="stanbol-ontologymanager" version="${pom.version}" description="Stanbol ontology manager" resolver="(obr)">
+    <feature version="${pom.version}">stanbol-rules</feature>
+    <bundle start-level="44">mvn:org.apache.stanbol/org.apache.stanbol.ontologymanager.servicesapi/0.10.0-SNAPSHOT</bundle>
+    <bundle start-level="44">mvn:org.apache.stanbol/org.apache.stanbol.ontologymanager.sources.owlapi/0.10.0-SNAPSHOT</bundle>
+    <bundle start-level="44">mvn:org.apache.stanbol/org.apache.stanbol.ontologymanager.core/0.10.0-SNAPSHOT</bundle>
+    <bundle start-level="44">mvn:org.apache.stanbol/org.apache.stanbol.ontologymanager.sources.clerezza/0.10.0-SNAPSHOT</bundle>
+    <bundle start-level="44">mvn:org.apache.stanbol/org.apache.stanbol.ontologymanager.multiplexer.clerezza/0.10.0-SNAPSHOT</bundle>
+    <bundle start-level="44">mvn:org.apache.stanbol/org.apache.stanbol.ontologymanager.registry/0.10.0-SNAPSHOT</bundle>
+  </feature>
+
+  <feature name="stanbol-ontologymanager-web" version="${pom.version}" description="Stanbol ontology manager web" resolver="(obr)">
+    <feature version="${pom.version}">stanbol-common-web</feature>
+    <feature version="${pom.version}">stanbol-ontologymanager</feature>
+    <bundle start-level="45">mvn:org.apache.stanbol/org.apache.stanbol.ontologymanager.web/0.10.0-SNAPSHOT</bundle>
+  </feature>
+
+  <feature name="stanbol" version="${pom.version}" description="Stanbol components" resolver="(obr)">
+    <feature version="${pom.version}">stanbol-rules</feature>
+    <!-- feature version="${pom.version}">stanbol-ontologymanager</feature -->
+  </feature>
+
+  <feature name="stanbol-web" version="${pom.version}" description="Stanbol components with web support" resolver="(obr)">
+    <feature version="${pom.version}">stanbol</feature>
+    <feature version="${pom.version}">stanbol-rules-web</feature>
+    <feature version="${pom.version}">stanbol-ontologymanager-web</feature>
+  </feature>
+</features>

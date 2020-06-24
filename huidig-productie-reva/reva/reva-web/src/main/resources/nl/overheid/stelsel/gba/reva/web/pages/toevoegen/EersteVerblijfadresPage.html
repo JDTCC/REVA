@@ -1,0 +1,140 @@
+<html>
+	<head>
+		<title>Invoeren eerste verblijfadres</title>
+	</head>
+	<body>
+		<div id="content">
+			<wicket:extend>
+				<form wicket:id="verblijfadresFormulier" >
+					<fieldset>
+						<legend>RNI gegevens</legend>
+						<ol>
+							<li>
+								<label for="dossierNummer"><wicket:message key="dossierNummer" /></label>
+								<input wicket:id="dossierNummer" type="text" class="text m"></input>
+							</li>
+							<div wicket:id="bsnFeedback">
+								<wicket:enclosure child="bsn">
+									<li>
+										<label for="bsn"><wicket:message key="bsn" /></label>
+										<input wicket:id="bsn" type="text" class="text s" maxlength="9"></input>
+									</li>
+								</wicket:enclosure>
+							</div>
+							<wicket:enclosure>
+								<li>
+									<label for="gemeenteVanInschrijving"><wicket:message key="gemeenteVanInschrijving" /></label>
+									<input wicket:id="gemeenteVanInschrijving" type="text" class="text"></input>
+								</li>
+							</wicket:enclosure>
+							<wicket:enclosure>
+								<li>
+									<label for="registratieTijdstempel"><wicket:message key="registratieTijdstempel" /></label>
+									<input wicket:id="registratieTijdstempel" type="text"></input>
+								</li>
+							</wicket:enclosure>
+						</ol>
+					</fieldset>
+					<fieldset>
+						<legend>Eerste verblijf adres</legend>
+						<ol>
+							<wicket:enclosure>
+								<li>
+									<label for="correctieTijdstempel"><wicket:message key="correctieTijdstempel" /></label>
+									<input wicket:id="correctieTijdstempel" type="text"></input>
+								</li>
+							</wicket:enclosure>
+							<li>
+								<div wicket:id="woonPlaatsFeedback">
+									<label for="woonPlaats"><wicket:message key="woonPlaats" /></label>
+									<input wicket:id="woonPlaats" type="text" maxlength="80"></input>
+								</div>
+							</li>
+							<li>
+								<div wicket:id="openbareRuimteFeedback">
+									<label for="openbareRuimte"><wicket:message key="openbareRuimte" /></label>
+									<input wicket:id="openbareRuimte" type="text" maxlength="80"></input>
+								</div>
+							</li>
+							<li>
+								<div wicket:id="postCodeFeedback">
+									<label for="postCode"><wicket:message key="postCode" /></label>
+									<input wicket:id="postCode" type="text" class="text s" maxlength="6"></input>
+								</div>
+							</li>
+							<li>
+								<div wicket:id="huisNummerFeedback">
+									<label for="huisNummer"><wicket:message key="huisNummer" /></label>
+									<input wicket:id="huisNummer" type="text" class="text s" maxlength="5"></input>
+								</div>
+							</li>
+							<li>
+								<div wicket:id="huisLetterFeedback">
+									<label for="huisLetter"><wicket:message key="huisLetter" /></label>
+									<input wicket:id="huisLetter" type="text" class="text s" maxlength="1"></input>
+								</div>
+							</li>
+							<li>
+								<div wicket:id="huisNummerToevoegingFeedback">
+									<label for="huisNummerToevoeging"><wicket:message key="huisNummerToevoeging" /></label>
+									<input wicket:id="huisNummerToevoeging" type="text" class="text s" maxlength="4"></input>
+								</div>
+							</li>
+							<li>
+								<div wicket:id="aanduidingHuisNummerFeedback">
+									<label for="aanduidingHuisNummer"><wicket:message key="aanduidingHuisNummer" /></label>
+									<select wicket:id="aanduidingHuisNummer"></select>
+								</div>
+							</li>
+							<li>
+								<div wicket:id="adresTypeFeedback">
+								  <label for="adresType" ><wicket:message key="adresType" /></label>
+								  <div wicket:id="adresType" >
+					    			<input type="radio" />
+								  </div>
+								</div>
+							</li>
+							<li>
+								<div wicket:id="toelichtingFeedback">
+									<label for="toelichting"><wicket:message key="toelichting" /></label>
+									<textarea wicket:id="toelichting" rows="5"></textarea>
+								</div>
+							</li>
+						</ol>
+					</fieldset>
+					<wicket:enclosure child="idCodeObject">
+						<fieldset>
+							<legend>BAG gegevens</legend>
+							<div class="unit size1012">
+							<ol>
+								<li>
+									<label for="idCodeObject"><wicket:message key="idCodeObject" /></label>
+									<input wicket:id="idCodeObject" type="text"></input>
+								</li>
+								<li>
+									<label for="idCodeNummerAanduiding"><wicket:message key="idCodeNummerAanduiding" /></label>
+									<input wicket:id="idCodeNummerAanduiding" type="text"></input>
+								</li>
+								<li>
+									<label for="bagGebruiksdoelen"><wicket:message key="bagGebruiksdoelen" /></label>
+									<input wicket:id="bagGebruiksdoelen" type="text"></input>
+								</li>
+							</ol>
+							</div>
+							<div wicket:id="bagCheck" class="unit size212"></div>
+						</fieldset>
+					</wicket:enclosure>
+					<p>
+						<input type="submit" class="btn" wicket:id="bag-controle" wicket:message="value:bag-controle"/>
+						<input type="submit" class="btn" wicket:id="bewaren" wicket:message="value:bewaren"/>
+						<input type="submit" class="btn" wicket:id="opvoeren.bsn" wicket:message="value:opvoeren.bsn"/>
+						<input type="submit" class="btn" wicket:id="bewaren.bsn" wicket:message="value:bewaren.bsn"/>
+						<input type="submit" class="btn" wicket:id="opvoeren.nieuwAdres" wicket:message="value:opvoeren.nieuwAdres"/>
+						<input type="submit" class="btn" wicket:id="bewaren.nieuwAdres" wicket:message="value:bewaren.nieuwAdres"/>
+						<span wicket:id="verwijderen"/>
+					</p>
+				</form>
+			</wicket:extend>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2010 (http://www.altova.com) by Kadaster (Kadaster) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:bagtype="http://www.kadaster.nl/schemas/imbag/imbag-gml-types/v20090901" xmlns:gml="http://www.opengis.net/gml" targetNamespace="http://www.kadaster.nl/schemas/imbag/imbag-gml-types/v20090901" elementFormDefault="qualified" attributeFormDefault="unqualified" version="0.8">
+	<xs:import namespace="http://www.opengis.net/gml" schemaLocation="../../gml/bag-gml.xsd"/>
+	<xs:complexType name="PuntOfVlak">
+		<xs:annotation>
+			<xs:documentation>Keuze tussen een punt (gml:Point) of een vlak (gml:Surface).</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element ref="gml:Point"/>
+			<xs:element ref="gml:_Surface"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="VlakOfMultiVlak">
+		<xs:choice>
+			<xs:element ref="gml:_Surface"/>
+			<xs:element ref="gml:MultiSurface"/>
+		</xs:choice>
+	</xs:complexType>
+</xs:schema>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint 
+  xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+  xmlns:ext="http://aries.apache.org/blueprint/xmlns/blueprint-ext/v1.0.0"
+  default-timeout="10000">
+
+	<bean id="recipeLoaderService" 
+    class="nl.overheid.stelsel.digimelding.astore.recipeloader.impl.RecipeLoaderServiceImpl" 
+    init-method="init" destroy-method="destroy" >
+
+    <property name="bundle" ref="blueprintBundle"/>
+    <property name="ruleStore" ref="ruleStoreRef"/>
+  </bean>
+    
+	<service ref="recipeLoaderService" 
+    interface="nl.overheid.stelsel.digimelding.astore.recipeloader.RecipeLoaderService" />
+
+  <reference id="ruleStoreRef"
+    interface="org.apache.stanbol.rules.base.api.RuleStore" />
+       
+</blueprint>

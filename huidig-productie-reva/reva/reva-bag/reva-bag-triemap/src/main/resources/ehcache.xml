@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<ehcache updateCheck="false">
+	<diskStore path="java.io.tmpdir" />
+	<defaultCache 
+		eternal="false" 
+		overflowToDisk="false" 
+		memoryStoreEvictionPolicy="LRU" 
+		timeToLiveSeconds="1200" 
+		timeToIdleSeconds="600" 
+		maxEntriesLocalHeap="1000" />
+	
+	<!-- 
+		NOTE: Do not change the name. It is used in TriemapBagService
+		      to access this particular cache.
+	 -->
+	<cache name="reva.bag.TriemapBagService" maxEntriesLocalHeap="100" />
+</ehcache>

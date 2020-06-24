@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>nl.overheid.stelsel.gba.reva</groupId>
+    <artifactId>reva-root</artifactId>
+    <version>1.5.5.4</version>
+    <relativePath>../reva-root</relativePath>
+  </parent>
+
+  <artifactId>reva-bag-reactor</artifactId>
+  <packaging>pom</packaging>
+  
+  <name>Reva :: BAG :: reactor</name>
+  <description>Pseudo project to build all Reva BAG modules.</description>
+
+  <modules>
+    <module>reva-bag-service</module>
+    <module>reva-bag-commands</module>
+    <module>reva-bag-mock</module>
+    <module>reva-bag-import</module>
+    <module>reva-bag-triemap</module>
+  </modules>
+</project>

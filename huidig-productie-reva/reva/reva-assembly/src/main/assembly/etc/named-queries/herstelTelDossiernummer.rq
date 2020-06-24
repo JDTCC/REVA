@@ -1,0 +1,21 @@
+#!Freemarker 
+
+PREFIX dm:   <http://www.digimelding.nl/2013/08/dm#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>  
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>  
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX reva: <http://data.reva.nl/2013/07/reva#>
+PREFIX rela: <http://www.digimelding.nl/2013/11/relaties#>
+PREFIX gem:  <http://www.bprbzk.nl/BRP/informatiebank/tabel33#>
+
+  SELECT (COUNT(?graphName) as ?missing)  {
+    GRAPH ?graphName {
+      # dossiernummer annotatie
+      ?uri rdf:type reva:DossierNummerAnnotatie .
+      	
+      FILTER NOT EXISTS { ?uri oa:hasTarget ?graphName }
+    }
+  }
+  LIMIT ${limit}

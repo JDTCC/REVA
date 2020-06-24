@@ -1,0 +1,58 @@
+#!Freemarker 
+#
+# Deze query geeft de stammen van aangemaakte registraties terug die
+# binnen het opgegeven interval liggen. Indien geen interval opgegeven
+# dan alleen de registaties van vandaag.
+#
+# Required Parameters:
+#   (none)
+# 
+# Optional parameters:
+#   vanafDatum         de datum vanaf indien aanwezig anders vandaag
+#   totenmetDatum      de datum tot en met indien aanwezig anders vandaag
+#   limit              het maximum aantal te tonen resultaten
+#   offset             de offset in de totale result set van waar te starten 
+#                      met het tonen van resultaten.
+#
+# REMARK:
+#   The parameters 'stamIndexName' can be ignored safely when executing this 
+#   query. They are used by the AStore framework:
+#     'stamIndexName'   Will be replaced with the actual index name used
+#                       by the framework. This name is configuration hence
+#                       the need to use a parameter.
+#
+
+<#setting date_format="yyyyMMdd">
+<#assign today = .now?date>
+<#if vanafDatum??>
+  <#assign vanaf = vanafDatum?replace("-","")>
+<#else>
+  <#assign vanaf = today>
+</#if>
+<#if totenmetDatum??>
+  <#assign totenmet = totenmetDatum?replace("-","")>
+<#else>
+  <#assign totenmet = today>
+</#if>
+
+PREFIX oa:   <http://www.w3.org/ns/oa#>  
+PREFIX reva: <http://data.reva.nl/2013/07/reva#>  
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>  
+
+SELECT ?${stamColumnName} ?timestamp
+WHERE { 
+  GRAPH ?stamUri {
+    ?stamUri rdf:type reva:RootAnnotatie ;
+      oa:annotatedAt ?timestamp ;
+      reva:aanmaakDatumInt ?tijdstempelAanmaak .
+    
+    FILTER (
+      ( ?tijdstempelAanmaak >= ${vanaf} ) &&
+      ( ?tijdstempelAanmaak <= ${totenmet} )
+    ) .
+
+    BIND( SUBSTR( str(?stamUri), 10) AS ?${stamColumnName} )
+  } 
+}
+LIMIT ${limit} OFFSET ${offset}

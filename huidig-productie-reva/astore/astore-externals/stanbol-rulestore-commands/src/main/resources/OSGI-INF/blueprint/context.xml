@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+  xmlns:ext="http://aries.apache.org/blueprint/xmlns/blueprint-ext/v1.0.0"
+  xmlns:shell="http://karaf.apache.org/xmlns/shell/v1.0.0"
+  default-timeout="10000">
+
+  <shell:command-bundle>
+    <shell:command name="rulestore/create">
+      <shell:action
+        class="org.apache.stanbol.rules.rulestore.commands.RuleStoreCreateCommand">
+        <shell:property name="ruleStore" ref="ruleStoreRef" />
+      </shell:action>
+    </shell:command>
+    <shell:command name="rulestore/export">
+      <shell:action
+        class="org.apache.stanbol.rules.rulestore.commands.RuleStoreExportCommand">
+        <shell:property name="ruleStore" ref="ruleStoreRef" />
+      </shell:action>
+    </shell:command>
+    <shell:command name="rulestore/getRecipe">
+      <shell:action
+        class="org.apache.stanbol.rules.rulestore.commands.RuleStoreGetRecipeCommand">
+        <shell:property name="ruleStore" ref="ruleStoreRef" />
+      </shell:action>
+    </shell:command>
+    <shell:command name="rulestore/getRule">
+      <shell:action
+        class="org.apache.stanbol.rules.rulestore.commands.RuleStoreGetRuleCommand">
+        <shell:property name="ruleStore" ref="ruleStoreRef" />
+      </shell:action>
+    </shell:command>
+    <shell:command name="rulestore/import">
+      <shell:action
+        class="org.apache.stanbol.rules.rulestore.commands.RuleStoreImportCommand">
+        <shell:property name="ruleStore" ref="ruleStoreRef" />
+      </shell:action>
+    </shell:command>
+    <shell:command name="rulestore/listRecipes">
+      <shell:action
+        class="org.apache.stanbol.rules.rulestore.commands.RuleStoreListRecipesCommand">
+        <shell:property name="ruleStore" ref="ruleStoreRef" />
+      </shell:action>
+    </shell:command>
+    <shell:command name="rulestore/listRules">
+      <shell:action
+        class="org.apache.stanbol.rules.rulestore.commands.RuleStoreListRulesCommand">
+        <shell:property name="ruleStore" ref="ruleStoreRef" />
+      </shell:action>
+    </shell:command>
+    <shell:command name="rulestore/remove">
+      <shell:action
+        class="org.apache.stanbol.rules.rulestore.commands.RuleStoreRemoveCommand">
+        <shell:property name="ruleStore" ref="ruleStoreRef" />
+      </shell:action>
+    </shell:command>
+    <shell:command name="rulestore/size">
+      <shell:action
+        class="org.apache.stanbol.rules.rulestore.commands.RuleStoreSizeCommand">
+        <shell:property name="ruleStore" ref="ruleStoreRef" />
+      </shell:action>
+    </shell:command>
+  </shell:command-bundle>
+
+  <reference id="ruleStoreRef"
+    interface="org.apache.stanbol.rules.base.api.RuleStore" />
+
+</blueprint>

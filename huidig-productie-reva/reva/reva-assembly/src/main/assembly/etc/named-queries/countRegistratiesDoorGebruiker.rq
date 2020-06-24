@@ -1,0 +1,55 @@
+#!Freemarker 
+#
+# Deze query geeft het aantal aangemaakte registraties per gebruiker terug
+#
+# Required Parameters:
+#   (none)
+# 
+# Optional parameters:
+#   vanafDatum         de datum vanaf indien aanwezig anders vandaag
+#   totenmetDatum      de datum tot en met indien aanwezig anders vandaag
+#   limit              het maximum aantal te tonen resultaten
+#   offset             de offset in de totale result set van waar te starten 
+#                      met het tonen van resultaten.
+#
+# REMARK:
+#   The parameters 'stamIndexName' can be ignored safely when executing this 
+#   query. They are used by the AStore framework:
+#     'stamIndexName'   Will be replaced with the actual index name used
+#                       by the framework. This name is configuration hence
+#                       the need to use a parameter.
+#
+
+<#assign today = .now?date?iso_utc>
+<#if !(vanafDatum??)>
+  <#assign vanafDatum = today>
+</#if>
+<#if !(totenmetDatum??)>
+  <#assign totenmetDatum = today>
+</#if>
+
+PREFIX oa:   <http://www.w3.org/ns/oa#>  
+PREFIX reva: <http://data.reva.nl/2013/07/reva#>  
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>  
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+
+SELECT ?gebruiker (COUNT(?stamUri) as ?aantalRegistraties)
+WHERE { 
+  GRAPH ?stamUri {
+    ?stamUri rdf:type reva:RootAnnotatie ;
+      oa:annotatedAt ?tijdstempelAanmaak ;
+      oa:annotatedBy ?agent .
+    
+    FILTER (
+      ( xsd:date(?tijdstempelAanmaak) >= strdt("${vanafDatum}", xsd:date) ) &&
+      ( xsd:date(?tijdstempelAanmaak) <= strdt("${totenmetDatum}", xsd:date) )
+    ) 
+    
+    ?agent rdf:type prov:Agent ;
+    	foaf:nick ?gebruiker .
+  } 
+}
+GROUP BY ?gebruiker
+LIMIT ${limit} OFFSET ${offset}

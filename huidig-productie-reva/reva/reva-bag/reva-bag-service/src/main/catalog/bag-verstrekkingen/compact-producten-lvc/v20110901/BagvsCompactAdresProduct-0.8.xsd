@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2010 (http://www.altova.com) by Kadaster (Kadaster) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:bc-adres="http://www.kadaster.nl/schemas/bag-verstrekkingen/compact-producten-lvc/v20110901" xmlns:bagtype="http://www.kadaster.nl/schemas/imbag/imbag-types/v20110901" xmlns:gml="http://www.opengis.net/gml" xmlns:nen5825="http://www.kadaster.nl/schemas/imbag/nen5825/v20090901" xmlns:bc_imbag_LVC="http://www.kadaster.nl/schemas/imbag-compact/lvc/v20110901" targetNamespace="http://www.kadaster.nl/schemas/bag-verstrekkingen/compact-producten-lvc/v20110901" elementFormDefault="qualified" attributeFormDefault="unqualified" version="0.8">
+	<xs:import namespace="http://www.kadaster.nl/schemas/imbag-compact/lvc/v20110901" schemaLocation="../../../imbag/lvc/v20110901/BagvsImbagLvcCompactAdres-0.8.xsd"/>
+	<xs:import namespace="http://www.kadaster.nl/schemas/imbag/imbag-types/v20110901" schemaLocation="../../../imbag/imbag-types/v20110901/BagvsImbagOnderdelen-0.8.xsd"/>
+	<xs:annotation>
+		<xs:documentation>Dit schema definieert een adres t.b.v. het product BAG Compact. De entiteit BCAdres is geen BAG object, maar een aggregatie van een aantal attributen van BAG objecten (gebaseerd op BAG). Attributen welke direct zijn overgenomen van de BAG zijn afgeleidt van IMBAG v0.71. Attributen welke niet in IMBAG zijn gedefinieerd zijn opgenomen in dit schema. Koppelen met de BAG verloopt analoog aan IMBAG, te weten via de bag object identificatie van een BAG object. Het BCAdres heeft zelf geen identificatie. </xs:documentation>
+	</xs:annotation>
+	<xs:element name="BCAdresProduct" type="bc-adres:BCAdresProduct">
+		<xs:annotation>
+			<xs:documentation>Onderdeel van het product BAG Compact, te weten een adres, samengesteld uit BAG  gegevens, zonder GML. </xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="BCAdresProduct">
+		<xs:sequence>
+			<xs:element ref="bc-adres:BCAdres" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="BCAdres" type="bc-adres:BCAdres">
+		<xs:annotation>
+			<xs:documentation>Het BAG Compact adres bestaat uit:
+- authentieke gegevens uit BAG (prefix bc-imbag) van nummeraanduiding, openbareruimte en woonplaats 
+- aggregaties van authentieke gegevens uit BAG (prefix bc-adres) van nummeraanduiding, openbare ruimte en woonplaats 
+- attributen van het adresseerbare object, waarvan het BC Adres een adres is via de relatie hoofdadres of nevenadres</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="BCAdres">
+		<xs:sequence>
+			<xs:element ref="bc_imbag_LVC:BCNummeraanduiding"/>
+			<xs:element ref="bc_imbag_LVC:BCOpenbareRuimte"/>
+			<xs:element ref="bc_imbag_LVC:BCWoonplaats"/>
+			<xs:element ref="bc_imbag_LVC:aanduidingRecordInactief">
+				<xs:annotation>
+					<xs:documentation>Deze aanduiding is afgeleid van de combinatie van aanduidingRecordInactief van Nummeraanduiding, Openbareruimte en Woonplaats, alsmede het adresseerbare object waarvan het BCAdres het adres is. Voor de definitie wordt verwezen naar IMBAG. </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="bc_imbag_LVC:inOnderzoek">
+				<xs:annotation>
+					<xs:documentation>Deze aanduiding is afgeleid van de combinatie van inOnderzoek van Nummeraanduiding, Openbareruimte en Woonplaats, alsmede het adresseerbare object waarvan het BCAdres het adres is. 
+Voor de definitie wordt verwezen naar IMBAG. </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="tijdvakgeldigheid" type="bagtype:Tijdvakgeldigheid">
+				<xs:annotation>
+					<xs:documentation>Deze periode is afgeleid van de combinatie van TijdvakGeldigheid van Nummeraanduiding, Openbareruimte en Woonplaats, alsmede het adresseerbare object waarvan het BCAdres het adres is. Voor de definitie wordt verwezen naar IMBAG. Voor de betekenis en vulling van dit veld wordt verwezen naar de productspecificatie. </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="bc_imbag_LVC:AdresseerbaarobjectKoppeling">
+				<xs:annotation>
+					<xs:documentation>Hulpgegevens t.b.v. de koppeling vanuit BCAdres naar adresseerbaar object. Deze gegevens worden eenmalig vastgesteld bij de levering van een product. Om een echte BAG conforme koppeling te maken is het noodzakelijk om vanuit adresseerbaar object de relatie hoofd- of nevenadres te gebruiken naar de identificatie van de nummeraanduiding binnen BCNummeraanduiding</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="X-coordinaat" type="bc_imbag_LVC:TypePoint.X">
+				<xs:annotation>
+					<xs:documentation>De X coordinaat van de afgeleide puntgeometrie van het betreffende adresseerbaar object, behorende bij de identificatie van het adresseerbare object. </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Y-coordinaat" type="bc_imbag_LVC:TypePoint.Y">
+				<xs:annotation>
+					<xs:documentation>De Y coordinaat van de afgeleide puntgeometrie van het betreffende adresseerbaar object, behorende bij de identificatie van het adresseerbare object. </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

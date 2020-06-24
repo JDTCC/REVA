@@ -1,0 +1,32 @@
+#!Freemarker 
+#
+# Deze query telt het aantal objecten met een tweede annotatedAt triples, 
+# waarbij de eerste triple van het type xsd:dateTime is en de tweede triple 
+# van het typexsd:string. Deze tweede triple is overvloedig.
+#
+# Required Parameters:
+#   (none)
+# 
+# Optional parameters:
+#   (none)
+#
+
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+PREFIX reva: <http://data.reva.nl/2013/07/reva#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT (COUNT(?object) as ?doubleDates)
+WHERE {
+  GRAPH ?stamUri {
+    ?object oa:hasTarget ?stamUri ;
+      oa:annotatedAt ?datum ;
+      oa:annotatedAt ?datumStr .
+
+    FILTER ( datatype(?datum) = xsd:dateTime )
+    FILTER ( datatype(?datumStr) = xsd:string )
+
+    BIND( datatype(?datum) as ?datatype)
+    BIND( datatype(?datumStr) as ?datatype2)
+  }
+}

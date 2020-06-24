@@ -1,0 +1,25 @@
+#!Freemarker
+#
+# blabla
+#
+# Required Parameters:
+#   (none)
+#
+# Optional parameters:
+#   (none)
+#
+
+PREFIX ap: <http://standaarden.overheid.nl/archipelago/v0-0-0-2/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT (COUNT(DISTINCT ?kenmerk) AS ?aantalKenmerken)
+WHERE {
+  GRAPH ?stamUri {
+    ?x ap:heeftReferentieKenmerkWaarde ?kenmerk
+  }
+  GRAPH <${stamIndexName}> {
+    ?stamUri rdf:type <http://digimelding.nl/AStore/Stam>
+
+    BIND( SUBSTR( str(?stamUri), 10) AS ?stam )
+  }
+}

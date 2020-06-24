@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Reva Menu Panel</title>
+</head>
+<body>
+	<wicket:panel>
+		<div class="nav-main">
+			<ul>
+				<li wicket:id="menuitem"><a wicket:id="menuitem-link"> menu </a> 
+				  <wicket:enclosure child="sub-menuitem">
+						<ul>
+							<li wicket:id="sub-menuitem">
+								<a wicket:id="sub-menuitem-link"> submenu </a>
+							</li>
+						</ul>
+					</wicket:enclosure>
+				</li>
+			</ul>
+		</div>
+	</wicket:panel>
+</body>
+</html>
+

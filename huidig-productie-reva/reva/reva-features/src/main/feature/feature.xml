@@ -1,0 +1,72 @@
+<features name="reva-${project.version}" xmlns="http://karaf.apache.org/xmlns/features/v1.0.0"> 
+  <repository>mvn:org.apache.shiro/shiro-features/${shiro.version}/xml/features</repository>
+  <repository>mvn:org.ops4j.pax.wicket/features/${pax.wicket.version}/xml/features</repository>
+  <repository>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.version}/xml/features</repository>
+  <repository>mvn:nl.overheid.stelsel.digimelding.astore/astore-features/${astore.version}/xml/features</repository>
+
+  <feature name="wicket" version="${wicket.version}">
+    <feature>http</feature>
+    <bundle>mvn:org.apache.wicket/wicket-util/${wicket.version}</bundle>
+    <bundle>mvn:org.apache.wicket/wicket-request/${wicket.version}</bundle>
+    <bundle>mvn:org.apache.wicket/wicket-core/${wicket.version}</bundle>
+    <bundle>mvn:org.apache.wicket/wicket-auth-roles/${wicket.version}</bundle>
+    <bundle>mvn:org.apache.wicket/wicket-extensions/${wicket.version}</bundle>
+    <bundle>mvn:org.apache.wicket/wicket-devutils/${wicket.version}</bundle>
+  </feature>
+  
+  <feature name="reva-deps" version="${project.version}" description="Reva - dependencies" resolver="(obr)">
+    <feature version="${wicket.version}">wicket</feature>
+    
+    <bundle start-level="80">mvn:org.wicketstuff/wicketstuff-shiro/${wicketstuff.shiro.version}</bundle>
+    <bundle>mvn:nl.overheid.stelsel.gba.reva.ext/org.json/20131018_1</bundle>
+    <bundle>mvn:nl.overheid.stelsel.gba.reva.ext/com.vaynberg.wicket.select2/2.2.2_1</bundle>
+  </feature>
+
+  <feature name="reva-bag" version="${project.version}" description="Reva - BAG service" resolver="(obr)">
+    <feature>reva-deps</feature>
+
+    <bundle start-level="80">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xpp3/${xpp3.version}</bundle>
+    <bundle start-level="80">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xstream/${xstream.version}</bundle>
+    <bundle start-level="80">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.ehcache/${ehcache.version}</bundle>
+    <bundle start-level="80">mvn:nl.overheid.stelsel.gba.reva/reva-bag-service/${project.version}</bundle>
+    <bundle start-level="80">mvn:nl.overheid.stelsel.gba.reva/reva-bag-import/${project.version}</bundle>
+    <bundle start-level="80">mvn:nl.overheid.stelsel.gba.reva/reva-bag-commands/${project.version}</bundle>
+  </feature>
+
+  <feature name="reva-bag-mock" version="${project.version}" description="Reva - BAG mock implementatie" resolver="(obr)">
+    <feature>reva-bag</feature>
+    
+    <bundle start-level="80">mvn:nl.overheid.stelsel.gba.reva/reva-bag-mock/${project.version}</bundle>
+  </feature>
+
+  <feature name="reva-bag-triemap" version="${project.version}" description="Reva - BAG Triemap" resolver="(obr)">
+    <feature>reva-bag</feature>
+
+    <bundle start-level="80">mvn:nl.overheid.stelsel.gba.reva/reva-bag-triemap/${project.version}</bundle>
+  </feature>
+
+  <feature name="reva-profile" version="${project.version}" description="Reva - Profile service" resolver="(obr)">
+    <bundle start-level="80">mvn:nl.overheid.stelsel.gba.reva/reva-profile-service/${project.version}</bundle>
+    <bundle start-level="80">mvn:nl.overheid.stelsel.gba.reva/reva-profile-properties/${project.version}</bundle>
+  </feature>
+
+  <feature name="reva-migrate" version="${project.version}" description="Reva - Migratie" resolver="(obr)">
+    <bundle start-level="80">mvn:nl.overheid.stelsel.gba.reva/reva-migrate/${project.version}</bundle>
+    <bundle start-level="80">mvn:nl.overheid.stelsel.gba.reva/reva-migrate-model/${project.version}</bundle>
+  </feature>
+
+  <feature name="reva" version="${project.version}" description="Reva - Registratie Eerste Verblijf Adres" resolver="(obr)">
+    <feature>reva-deps</feature>
+    <feature version="${shiro.version}">shiro-web</feature>
+    <feature version="${pax.wicket.version}">pax-wicket</feature>
+    <feature version="${pax.wicket.version}">pax-wicket-blueprint</feature>
+    <feature version="${astore.version}">astore-engine</feature>
+    <feature>reva-bag-triemap</feature>
+    <feature>reva-profile</feature>
+    <feature>reva-migrate</feature>
+    
+    <bundle start-level="85">mvn:nl.overheid.stelsel.gba.reva/reva-virtuoso-workaround/${project.version}</bundle>
+    <bundle start-level="85">mvn:nl.overheid.stelsel.gba.reva/reva-auth/${project.version}</bundle>
+    <bundle start-level="85">mvn:nl.overheid.stelsel.gba.reva/reva-web/${project.version}</bundle>
+  </feature>
+</features>

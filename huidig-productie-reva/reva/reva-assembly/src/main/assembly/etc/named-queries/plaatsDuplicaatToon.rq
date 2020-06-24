@@ -1,0 +1,46 @@
+#!Freemarker
+# Deze query toont een lijst met alle registratie ID's waarbij
+# het adres in de registratie de opgegeven woonplaats heeft met
+# de opgegeven bag verblijfsplaats ID.
+#
+# Required Parameters:
+# 
+# Optional parameters:
+#   woonplaats         de woonplaats
+#   verkeerdeIdCode    de juiste bag verblijfsadres ID
+#
+
+PREFIX oa:   <http://www.w3.org/ns/oa#>  
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX reva: <http://data.reva.nl/2013/07/reva#>
+PREFIX rela: <http://www.digimelding.nl/2013/11/relaties#>
+PREFIX gem:  <http://www.bprbzk.nl/BRP/informatiebank/tabel33#>
+
+SELECT ?woonplaats ?idCode (COUNT(?${stamColumnName}) as ?aantal)
+WHERE {
+  GRAPH ?stamUri {
+<#if woonplaats??>
+    ?body reva:woonplaats '${woonplaats}' .
+    BIND( '${woonplaats}' AS ?woonplaats )
+<#else>
+    ?body reva:woonplaats ?woonplaats .
+</#if>
+<#if verkeerdeIdCode??>
+    ?body reva:bagIdCodePlaats '${verkeerdeIdCode}' .
+    BIND( '${verkeerdeIdCode}' AS ?IdCode )
+<#else>
+    ?body reva:bagIdCodePlaats ?idCode .
+</#if>
+  }
+
+  GRAPH <${stamIndexName}> {
+    ?stamUri rdf:type <http://digimelding.nl/AStore/Stam> .
+
+    BIND( SUBSTR( str(?stamUri), 10) AS ?${stamColumnName} )
+  }
+}
+GROUP BY ?woonplaats ?idCode
+ORDER BY ?woonplaats ?idCode

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint 
+  xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+  xmlns:ext="http://aries.apache.org/blueprint/xmlns/blueprint-ext/v1.0.0"
+  default-timeout="10000">
+
+  <!-- Configure processing step managers -->
+  <bean id="authorisationManager" scope="singleton"
+    class="nl.overheid.stelsel.digimelding.astore.impl.managers.AuthorisationManager"
+    init-method="init" destroy-method="destroy" >
+    <property name="timingService" ref="timingServiceRef" />
+  </bean>
+  <reference-list  
+    interface="nl.overheid.stelsel.digimelding.astore.authorisation.AuthorisationProvider"
+    member-type="service-object"
+    availability="optional">
+    <reference-listener ref="authorisationManager" bind-method="bind" unbind-method="unbind"/>
+  </reference-list>
+    
+  <bean id="filterManager" scope="singleton"
+    class="nl.overheid.stelsel.digimelding.astore.impl.managers.FilterManager" 
+    init-method="init" destroy-method="destroy" >
+    <property name="timingService" ref="timingServiceRef" />
+  </bean>
+  <reference-list  
+    interface="nl.overheid.stelsel.digimelding.astore.filter.FilterProvider"
+    member-type="service-object"
+    availability="optional">
+    <reference-listener ref="filterManager" bind-method="bind" unbind-method="unbind"/>
+  </reference-list>
+    
+  <bean id="processorManager" scope="singleton"
+    class="nl.overheid.stelsel.digimelding.astore.impl.managers.ProcessorManager" 
+    init-method="init" destroy-method="destroy" >
+    <property name="timingService" ref="timingServiceRef" />
+  </bean>
+  <reference-list  
+    interface="nl.overheid.stelsel.digimelding.astore.processor.AnnotationProcessor"
+    member-type="service-object"
+    availability="optional">
+    <reference-listener ref="processorManager" bind-method="bind" unbind-method="unbind"/>
+  </reference-list>
+    
+  <bean id="storageManager" scope="singleton"
+    class="nl.overheid.stelsel.digimelding.astore.impl.managers.StorageManager" 
+    init-method="init" destroy-method="destroy" >
+
+    <property name="namedQueryService" ref="namedQueryServiceRef"/>
+    <property name="timingService" ref="timingServiceRef" />
+  </bean>
+  <reference-list  
+    interface="nl.overheid.stelsel.digimelding.astore.storage.StorageProvider"
+    member-type="service-object"
+    availability="optional">
+    <reference-listener ref="storageManager" bind-method="bind" unbind-method="unbind"/>
+  </reference-list>
+    
+  <bean id="validatorManager" scope="singleton"
+    class="nl.overheid.stelsel.digimelding.astore.impl.managers.ValidatorManager" 
+    init-method="init" destroy-method="destroy" >
+    <property name="timingService" ref="timingServiceRef" />
+  </bean>
+  <reference-list  
+    interface="nl.overheid.stelsel.digimelding.astore.validation.ValidationProvider"
+    member-type="service-object"
+    availability="optional">
+    <reference-listener ref="validatorManager" bind-method="bind" unbind-method="unbind"/>
+  </reference-list>
+
+  <bean id="notificationManager" scope="singleton"
+    class="nl.overheid.stelsel.digimelding.astore.impl.managers.NotificationManager" 
+    init-method="init" destroy-method="destroy" >
+    <property name="timingService" ref="timingServiceRef" />
+  </bean>
+  <reference-list  
+    interface="nl.overheid.stelsel.digimelding.astore.notification.NotificationProvider"
+    member-type="service-object"
+    availability="optional">
+    <reference-listener ref="notificationManager" bind-method="bind" unbind-method="unbind"/>
+  </reference-list>
+
+
+	<bean id="astoreService" 
+    class="nl.overheid.stelsel.digimelding.astore.impl.AnnotationStoreServiceImpl" 
+    init-method="init" destroy-method="destroy" >
+    <property name="authorisationManager" ref="authorisationManager"/>
+    <property name="filterManager" ref="filterManager"/>
+    <property name="processorManager" ref="processorManager"/>
+    <property name="storageManager" ref="storageManager"/>
+    <property name="validatorManager" ref="validatorManager"/>
+    <property name="notificationManager" ref="notificationManager"/>
+    <property name="timingService" ref="timingServiceRef" />
+  </bean>
+    
+	<service ref="astoreService" 
+    interface="nl.overheid.stelsel.digimelding.astore.AnnotationStoreService" />
+       
+  <reference id="namedQueryServiceRef"
+    interface="nl.overheid.stelsel.digimelding.astore.namedquery.NamedQueryService" />
+    
+  <reference id="timingServiceRef"
+    interface="nl.overheid.stelsel.digimelding.astore.timing.TimingService" />
+</blueprint>

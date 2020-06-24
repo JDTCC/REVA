@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+
+  <bean id="queryBuilderService"
+    class="nl.overheid.stelsel.digimelding.astore.namedquery.querybuilder.QueryBuilder">
+    <property name="templateEngine" ref="templateEngineServiceRef" />
+  </bean>
+
+  <reference id="templateEngineServiceRef" 
+    interface="nl.xup.template.TemplateEngineService" />
+
+  <service ref="queryBuilderService" 
+    interface="nl.overheid.stelsel.digimelding.astore.namedquery.QueryBuilderService" />
+</blueprint>

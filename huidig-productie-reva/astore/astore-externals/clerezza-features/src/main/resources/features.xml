@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<features name="clerezza-${pom.version}" xmlns="http://karaf.apache.org/xmlns/features/v1.0.0"> 
+
+  <feature name="clerezza-common" version="${pom.version}" description="Common components" resolver="(obr)">
+    <bundle start-level="50">mvn:org.apache.felix/org.apache.felix.scr/1.6.2</bundle>
+    <bundle start-level="50">mvn:commons-codec/commons-codec/1.7</bundle>
+    <bundle start-level="50">mvn:commons-io/commons-io/2.4</bundle>
+    <bundle start-level="50">mvn:org.apache.httpcomponents/httpcore-osgi/4.2.1</bundle>
+    <bundle start-level="50">mvn:org.apache.httpcomponents/httpclient-osgi/4.2.1</bundle>
+    <bundle start-level="50">mvn:com.google.guava/guava/14.0</bundle>
+  </feature>
+
+  <feature name="clerezza-core" version="${pom.version}" description="Clarezza components" resolver="(obr)">
+    <feature version="${pom.version}">clerezza-common</feature>
+    <bundle start-level="55">mvn:org.apache.clerezza/rdf.core/1.0.0-SNAPSHOT</bundle>
+    <bundle start-level="55">mvn:org.apache.clerezza/rdf.utils/0.14</bundle>
+    <bundle start-level="55">mvn:org.apache.clerezza.ext/com.ibm.icu/0.6</bundle>
+    <bundle start-level="55">mvn:org.wymiwyg/wymiwyg-commons-core/0.8</bundle>
+    <bundle start-level="55">mvn:org.apache.clerezza/utils/0.2</bundle>
+    <bundle start-level="55">mvn:org.apache.clerezza/rdf.ontologies/0.12</bundle>
+    <bundle start-level="55">mvn:org.apache.clerezza.ext/javax.mail/0.4-incubating</bundle>
+  </feature>
+
+  <feature name="clerezza-jena" version="${pom.version}" description="Clarezza Jena components" resolver="(obr)">
+    <feature version="${pom.version}">clerezza-core</feature>
+    <bundle start-level="55">mvn:org.apache.clerezza.ext/org.apache.jena.jena-iri/1.0.1_1</bundle>
+    <bundle start-level="55">mvn:org.apache.clerezza.ext/org.apache.jena.jena-core/2.11.1_1</bundle>
+    <bundle start-level="55">mvn:org.apache.clerezza.ext/org.apache.jena.jena-arq/2.11.1_1</bundle>
+    <bundle start-level="55">mvn:org.apache.clerezza/rdf.jena.sparql/0.7</bundle>
+    <bundle start-level="55">mvn:org.apache.clerezza/rdf.jena.commons/0.7</bundle>
+    <bundle start-level="55">mvn:org.apache.clerezza/rdf.jena.facade/0.14</bundle>
+    <bundle start-level="55">mvn:org.apache.clerezza/rdf.jena.storage/0.7</bundle>
+    <bundle start-level="55">mvn:org.apache.clerezza/rdf.jena.serializer/0.11</bundle>
+    <bundle start-level="55">mvn:org.apache.clerezza/rdf.jena.parser/0.12</bundle>
+  </feature>
+
+  <feature name="clerezza-jena-tdb" version="${pom.version}" description="Clarezza Jena TDB components" resolver="(obr)">
+    <feature version="${pom.version}">clerezza-jena</feature>
+    <bundle start-level="55">mvn:org.apache.clerezza.ext/org.apache.jena.jena-tdb/1.0.1_1</bundle>
+    <bundle start-level="55">mvn:org.apache.clerezza/rdf.jena.tdb.storage/0.7</bundle>
+  </feature>
+  
+  <feature name="clerezza-virtuoso" version="${pom.version}" description="Clarezza Virtuoso components" resolver="(obr)">
+    <feature version="${pom.version}">clerezza-jena</feature>
+    <bundle start-level="55">mvn:org.apache.clerezza/ext.virtuoso.jdbc/1.0.0-SNAPSHOT</bundle>
+    <bundle start-level="55">mvn:org.apache.clerezza/rdf.virtuoso.storage/1.0.0-SNAPSHOT</bundle>
+  </feature>
+
+  <feature name="clerezza-json" version="${pom.version}" description="Clarezza JSON components" resolver="(obr)">
+    <bundle start-level="55">mvn:org.apache.clerezza.ext/org.json.simple/0.4</bundle>
+    <bundle start-level="55">mvn:org.apache.clerezza/rdf.rdfjson/0.4</bundle>
+  </feature>
+
+  <feature name="clerezza-jaxrs" version="${pom.version}" description="Clarezza Jax-RS components" resolver="(obr)">
+    <feature version="${pom.version}">clerezza-json</feature>
+    <bundle start-level="55">mvn:org.apache.clerezza/jaxrs.utils/0.9</bundle>
+    <bundle start-level="55">mvn:org.apache.clerezza/jaxrs.extensions/0.6</bundle>
+    <bundle start-level="55">mvn:org.apache.clerezza/jaxrs.rdf.providers/0.16-SNAPSHOT</bundle>
+  </feature>
+    
+  <feature name="clerezza-web" version="${pom.version}" description="Clarezza Web components" resolver="(obr)">
+    <bundle start-level="55">mvn:org.apache.clerezza/web.fileserver/0.10</bundle>
+  </feature>
+
+  <feature name="clerezza" version="${pom.version}" description="Clarezza components" resolver="(obr)">
+    <feature version="${pom.version}">clerezza-common</feature>
+    <feature version="${pom.version}">clerezza-core</feature>
+    <feature version="${pom.version}">clerezza-jaxrs</feature>
+    <feature version="${pom.version}">clerezza-jena</feature>
+    <feature version="${pom.version}">clerezza-virtuoso</feature>
+    <feature version="${pom.version}">clerezza-web</feature>
+  </feature>
+   
+</features>

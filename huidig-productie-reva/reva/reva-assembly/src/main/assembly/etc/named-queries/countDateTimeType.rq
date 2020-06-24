@@ -1,0 +1,27 @@
+#!Freemarker 
+#
+# Deze query telt het aantal objecten met een annotatedAt triple met het verkeerde
+# datatype (xsd:xsd:dateTime), dit terwijl het datatype xsd:dateTime moet zijn. 
+#
+# Required Parameters:
+#   (none)
+# 
+# Optional parameters:
+#   (none)
+#
+
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+PREFIX reva: <http://data.reva.nl/2013/07/reva#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT (COUNT(?object) as ?incorrectDateFormat)
+WHERE {
+  GRAPH ?stamUri {
+    ?object oa:annotatedAt ?datum .
+
+    FILTER ( datatype(?datum) = <http://www.w3.org/2001/XMLSchema#xsd:dateTime> )
+
+    BIND( datatype(?datum) as ?datatype)
+  }
+}

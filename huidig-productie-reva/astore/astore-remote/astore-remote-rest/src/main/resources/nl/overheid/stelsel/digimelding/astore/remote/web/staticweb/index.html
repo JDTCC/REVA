@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>turtled</title>
+	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Metrophobic" />
+	<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+	<div id="top">
+		<h1>Annotation Tree</h1>
+		<p>
+			A <a href="http://www.w3.org/TR/turtle/" target="_new" title="Turtle - Terse RDF Triple Language">RDF Turtle</a> representation of an annotation tree.
+		</p>
+	</div>
+	<div id="main">
+		<div id="in">
+			<div id="in-support">
+				<span class="ctrl-item"><a href="http://groups.csail.mit.edu/haystack/blog/2008/11/06/a-quick-tutorial-on-the-tutrle-rdf-serialization/" target="_new" title="A Quick Tutorial on the Turtle RDF Serialization">Turtle tutorial ...</a></span>
+				<span class="ctrl-item"><a href="http://prefix.cc/" target="_new" title="namespace lookup for RDF developers">Prefixes ...</a></span>
+			</div>
+			
+			<div id="currententry"></div>
+      <textarea id="tinput" rows="15" cols="70" title="Annotation tree in Turtle RDF format.">
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix schema: <http://schema.org/> .
+@prefix : <http://example.org/#> .
+
+:x a schema:Thing ;
+   rdfs:label "a thing" ;
+.
+      </textarea>
+			<div id="status">Status: waiting for user input</div>
+			<div id="in-ctrl">
+				<button id="vis">Visualise!</button>
+				<button id="save">Save ...</button><span id="entries"></span>
+				<div id="restrict" title="click to show/hide"><img src="images/restrict.png" alt="Restrict" id="img-restrict" />Restrict ...</div>
+				<div id="restrictions">
+					<p>
+						The SPARQL CONSTRUCT below, is applied to the RDF Turtle input before rendering.
+						If you're unfamiliar with SPARQL CONSTRUCT queries, have a look at Olaf Hartig's <a href="http://www2.informatik.hu-berlin.de/~hartig/tmp/HartigTutorialICWE12_2.pdf" target="_new" title="An Introduction to SPARQL and Queries over Linked Data">tutorial</a>.
+					</p>
+					<textarea id="sinput" rows="8" cols="70" title="Enter a valid SPARQL CONSTRUCT query here that will be applied to the input ...">
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+CONSTRUCT {
+ <http://example.org/#x> rdf:type ?o .
+}
+WHERE {
+ <http://example.org/#x> rdf:type ?o .
+}
+					</textarea>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="out-support">
+		<button id="svgexport">Export SVG ...</button>
+		<span id="stats" title="Overall RDF Turtle statistics"></span>
+		<strong>Labels:</strong><span id="prefixes"><input id="useprefixes" type="checkbox" checked="checked" /> use prefixes</span>
+		<strong>Rendering:</strong> <span class="ctrl-item" id="labels" title="click to switch rendering">full</span>
+	</div>
+	<div id="out"></div>
+	<div id="prefixesused"></div>
+
+	<script src="js/jquery-1.7.2.min.js"></script>
+	<script src="js/vivagraph.min.js"></script>
+	<script src="js/rdf_store_min.js"></script>
+	<script src="js/json2.js"></script>
+	<script src="js/examples.js"></script>
+	<script src="js/prefixes.js"></script>	
+	<script src="js/turtled.js"></script>
+</body>
+</html>

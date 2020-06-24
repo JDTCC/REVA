@@ -1,0 +1,39 @@
+#!Freemarker 
+#
+# Deze query verwijderd alle tweede annotatedAt triples, waarbij de eerste
+# triple van het type xsd:dateTime is en de tweede triple van het type
+# xsd:string. Deze tweede triple is overvloedig en kan weg.
+#
+# Required Parameters:
+#   (none)
+# 
+# Optional parameters:
+#   (none)
+#
+
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+PREFIX reva: <http://data.reva.nl/2013/07/reva#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+DELETE {
+  GRAPH ?stamUri {
+    ?object oa:annotatedAt ?datumStr .
+  }
+} 
+WHERE {
+  SELECT ?stamUri ?object ?datumStr ?datatype2 {
+    GRAPH ?stamUri {
+      ?object oa:hasTarget ?stamUri ;
+        oa:annotatedAt ?datum ;
+        oa:annotatedAt ?datumStr .
+
+      FILTER ( datatype(?datum) = xsd:dateTime )
+      FILTER ( datatype(?datumStr) = xsd:string )
+
+      BIND( datatype(?datum) as ?datatype)
+      BIND( datatype(?datumStr) as ?datatype2)
+    }
+  }
+  LIMIT ${limit}
+}

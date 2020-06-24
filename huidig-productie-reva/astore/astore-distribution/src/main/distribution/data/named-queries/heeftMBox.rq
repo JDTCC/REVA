@@ -1,0 +1,39 @@
+#!Freemarker 
+#
+# This query return all annotation trees (by their stam id) that contain
+# the specified 'mbox'
+#
+# Required Parameters:
+#   mbox       the mbox to look for.
+# 
+# Optional parameters:
+#   limit      the maximum number of results to return
+#   offset     the offset in the total result set from where to start the 
+#              returned results.
+#
+# REMARK:
+#   The parameters 'stamColumnName' and 'stamIndexName' can be ignored safely  
+#   when executing this query. They are used by the AStore framework:
+#     'stamColumnName'  Will be replaced with the column name used by the
+#                       framework. This column name tells the framework to
+#                       replace the resultset with a set of annotation trees.
+#     'stamIndexName'   Will be replaced with the actual index name used
+#                       by the framework. This name is configuration hence
+#                       the need to use a parameter.
+#
+
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>  
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT ?${stamColumnName}
+WHERE {
+  GRAPH ?stamUri {
+    ?x foaf:mbox '${mbox}'
+  }
+  GRAPH <${stamIndexName}> { 
+    ?stamUri rdf:type <http://digimelding.nl/AStore/Stam> 
+    
+    BIND( SUBSTR( str(?stamUri), 10) AS ?${stamColumnName} )
+  } 
+}
+LIMIT ${limit} OFFSET ${offset}

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<features name="astore-${pom.version}" xmlns="http://karaf.apache.org/xmlns/features/v1.0.0"> 
+  <repository>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.version}/xml/features</repository>
+  <repository>mvn:nl.overheid.stelsel.digimelding.astore/clerezza-features/${pom.version}/xml/features</repository>
+  <!-- repository>mvn:nl.overheid.stelsel.digimelding.astore/stanbol-features/${pom.version}/xml/features</repository -->
+
+  <feature name="astore-common" version="${pom.version}" description="AStore common components" resolver="(obr)">
+    <bundle start-level="70">mvn:org.apache.felix/org.apache.felix.metatype/1.0.6</bundle>
+    <bundle start-level="70">mvn:org.apache.felix/org.apache.felix.scr/1.6.2</bundle>
+    <bundle start-level="70">mvn:commons-codec/commons-codec/1.7</bundle>
+    <bundle start-level="70">mvn:commons-io/commons-io/2.4</bundle>
+    <bundle start-level="70">mvn:org.apache.httpcomponents/httpcore-osgi/4.2.1</bundle>
+    <bundle start-level="70">mvn:org.apache.httpcomponents/httpclient-osgi/4.2.1</bundle>
+    <bundle start-level="70">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.antlr/3.5.1_1</bundle>
+    <bundle start-level="70">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.antlr-runtime/3.5.1_1</bundle>
+    <bundle start-level="70">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.stringtemplate/4.0.2_2</bundle>
+    <bundle start-level="70">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.freemarker/2.3.20_1</bundle>
+    <bundle start-level="70">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-collections/3.2.1_3</bundle>
+    <bundle start-level="70">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-lang/2.4_6</bundle>
+    <bundle start-level="70">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.poi/3.9_2</bundle>
+    <bundle start-level="70">mvn:nl.overheid.stelsel.digimelding.astore/astore-utils-tableprinter/${pom.version}</bundle>
+    <bundle start-level="70">mvn:nl.overheid.stelsel.digimelding.astore/astore-utils-utils/${pom.version}</bundle>
+    <bundle start-level="70">mvn:nl.overheid.stelsel.digimelding.astore/astore-jaxrs-providers/${pom.version}</bundle>
+  </feature>
+
+  <feature name="timing" version="${pom.version}" description="Timing components" resolver="(obr)">
+    <feature version="${cxf.version}">cxf-core</feature>
+    <feature version="${pom.version}">astore-common</feature>
+    <bundle start-level="70">mvn:nl.overheid.stelsel.digimelding.astore/timing-service/${pom.version}</bundle>
+    <bundle start-level="70">mvn:nl.overheid.stelsel.digimelding.astore/timing-collector-map/${pom.version}</bundle>
+    <bundle start-level="70">mvn:nl.overheid.stelsel.digimelding.astore/timing-commands/${pom.version}</bundle>
+    <bundle start-level="70">mvn:nl.overheid.stelsel.digimelding.astore/timing-cxf/${pom.version}</bundle>
+  </feature>
+
+  <feature name="template" version="${pom.version}" description="XupTemplate components" resolver="(obr)">
+    <feature version="${pom.version}">astore-common</feature>
+    <bundle start-level="72">mvn:nl.xup.template/template-core/0.1</bundle>
+    <!-- bundle start-level="75">mvn:nl.xup.template.groovy/template-groovy/0.1</bundle -->
+    <bundle start-level="24">mvn:nl.xup.template.freemarker/template-freemarker/0.1</bundle>
+    <bundle start-level="24">mvn:nl.xup.template.stringtemplate/template-stringtemplate/0.1</bundle>
+    <!-- bundle start-level="24">mvn:nl.xup.template.velocity/template-velocity/0.1</bundle -->
+  </feature>
+
+  <feature name="astore-namedqueries" version="${pom.version}" description="AStore Component NamedQueries" resolver="(obr)">
+    <bundle start-level="75">mvn:nl.overheid.stelsel.digimelding.astore/astore-namedquery-service/${pom.version}</bundle>
+    <bundle start-level="75">mvn:nl.overheid.stelsel.digimelding.astore/astore-namedquery-querybuilder/${pom.version}</bundle>
+    <bundle start-level="75">mvn:nl.overheid.stelsel.digimelding.astore/astore-namedquery-commands/${pom.version}</bundle>
+    <!-- bundle start-level="75">mvn:nl.overheid.stelsel.digimelding.astore/astore-namedquery-map/${pom.version}</bundle -->
+    <bundle start-level="75">mvn:nl.overheid.stelsel.digimelding.astore/astore-namedquery-filesystem/${pom.version}</bundle>
+  </feature>
+
+<!-- Nog niet gebruikt dus ook nog maar niet laden. 
+  <feature name="astore-recipeloader" version="${pom.version}" description="AStore Component RecipeLoader" resolver="(obr)">
+    <bundle start-level="75">mvn:nl.overheid.stelsel.digimelding.astore/stanbol-rulestore-commands/${pom.version}</bundle>
+
+    <bundle start-level="75">mvn:nl.overheid.stelsel.digimelding.astore/astore-recipeloader-service/${pom.version}</bundle>
+    <bundle start-level="75">mvn:nl.overheid.stelsel.digimelding.astore/astore-recipeloader-commands/${pom.version}</bundle>
+    <bundle start-level="75">mvn:nl.overheid.stelsel.digimelding.astore/astore-recipeloader-impl/${pom.version}</bundle>
+  </feature>
+ -->
+
+  <feature name="astore-engine" version="${pom.version}" description="AStore Core Engine" resolver="(obr)">
+    <feature  version="${pom.version}">astore-common</feature>
+    <feature  version="${pom.version}">timing</feature>
+    <feature  version="${pom.version}">template</feature>
+    <feature  version="${pom.version}">clerezza</feature>
+    <!-- feature  version="${pom.version}">stanbol</feature -->
+    <feature  version="${pom.version}">astore-namedqueries</feature>
+    <!-- feature  version="${pom.version}">astore-reciploader</feature -->
+
+    <!-- bundle start-level="75">mvn:nl.overheid.stelsel.digimelding.astore/stanbol-rulestore-commands/${pom.version}</bundle -->
+    
+    <!-- AStore engine -->
+    <bundle start-level="75">mvn:nl.overheid.stelsel.digimelding.astore/astore-engine-service/${pom.version}</bundle>
+    <bundle start-level="75">mvn:nl.overheid.stelsel.digimelding.astore/astore-engine-impl/${pom.version}</bundle>
+    <bundle start-level="75">mvn:nl.overheid.stelsel.digimelding.astore/astore-engine-commands/${pom.version}</bundle>
+        
+    <!-- Choose the right storage providers. -->
+    <bundle start-level="75">mvn:nl.overheid.stelsel.digimelding.astore/astore-storage-clerezza/${pom.version}</bundle>
+
+    <!-- Preprocessors -->
+    <bundle start-level="75">mvn:nl.overheid.stelsel.digimelding.astore/astore-preprocess-saferemove/${pom.version}</bundle>
+
+    <!-- Postprocessors/Notification -->
+    <!-- bundle start-level="75">mvn:nl.overheid.stelsel.digimelding.astore/astore-notification-twitter/${pom.version}</bundle-->
+  </feature>
+      
+  <feature name="astore-remote" version="${pom.version}" description="AStore Remoting components" resolver="(obr)">
+    <feature version="${cxf.version}">cxf-core</feature>
+    <feature version="${pom.version}">astore-engine</feature>
+    <bundle start-level="75">mvn:nl.overheid.stelsel.digimelding.astore/astore-remote-rest/${pom.version}</bundle>
+    <bundle start-level="75">mvn:nl.overheid.stelsel.digimelding.astore/astore-remote-soap/${pom.version}</bundle>
+  </feature>
+
+  <feature name="astore-fullaccess" version="${pom.version}" description="AStore Authorisation with full access" resolver="(obr)">
+    <!-- Choose the right authorisation providers. -->
+    <bundle start-level="75">mvn:nl.overheid.stelsel.digimelding.astore/astore-authorisation-fullaccess/${pom.version}</bundle>
+  </feature>
+
+</features>

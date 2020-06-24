@@ -1,0 +1,43 @@
+20130902 
+
+Bestand BagvsCompactAdresProduct-0.8.xsd stond in verkeerde directory. 
+Fix: directory naam verbeterd.
+
+was:        compact-producten
+moest zijn: compact-producten-lvc
+
+Hele pad: bag-verstrekkingen\compact-producten-lvc\v20110901
+Schemalocation: http://www.kadaster.nl/schemas/bag-verstrekkingen/compact-producten-lvc/v20110901 BagvsCompactAdresProduct-0.8.xsd
+
+Geen import wijzigen. Dit is een rootschema, geen enkel ander schema imports dit bestand.
+xsd's op site na publicatie van deze fix nu weer conform geleverde XML 
+
+
+20130729 
+BagvsExtractSelecties-0.8.xsd mist in het zip pakket voor bag schema's. Wordt gebruikt door rootschema BagvsGwrDeelbestandLvc-1.4.xsd in GWR product. Hoort in: bag-verstrekkingen\extract-selecties\v20110901
+
+20121120 
+Changelog ten op zichte van de zip bag-vs_1.4_en_imbag_0.7.zip, zoals gepubliceerd tot medio april 2012: 
+- verwijderd: deprecated xsd BagvsExtractDeelbestandMutatieLvc-1.3.xsd
+- wsdl fix  : import van ApplicatieFout-1.3.xsd nu met relatief pad ../../ 
+
+Changelog ten op zichte van de zip 20120413 bag-vs_schemas_diverse_diensten.zip, zoals gepubliceerd 18 nov 2011/
+16 sep 2011 
+- verwijderd: niets
+- toegevoegd: 	BagvsGwrGemeente-0.1.xsd
+		BagvsGemeenteWoonplaatsRelatieLvc-0.8.xsd
+		BagvsGwrDeelbestandLvc-1.4.xsd
+		BagvsGemeenteWoonplaatsRelatieProduct-0.8.xsd
+		* deze maken (her)gebruik van een aantal andere schema's uit imbag en bag-verstrekkingen
+
+		Deze schema's vervangen het zip pakket 
+		20120619 LVBAG-GemeenteWoonplaatsRelatie v20120701 (juni 2012#1).zip en 
+		20120719 LVBAG-GemeenteWoonplaatsRelatie v20120701 (2012#2).zip
+
+===
+
+Voor toelichting zie Koppelvlak document Koppelvlakbeschrijving_Extract.pdf versie 2.1 (of later):
+- http://www.kadaster.nl/BAG 
+	- tabblad documentatie
+		- http://www.kadaster.nl/BAG/docs/Koppelvlakbeschrijving_Extract.pdf
+		- http://www.kadaster.nl/BAG/docs/Informatieproduct en koppelvlakbeschrijving GWR v1.3.pdf

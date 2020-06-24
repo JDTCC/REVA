@@ -1,0 +1,48 @@
+#!Freemarker
+# Deze query geeft een result set met unieke adressen die voorkomen
+# in registraties.
+#
+# Required Parameters:
+#   (Geen)
+#
+# Optional parameters:
+#   limit              het maximum aantal te tonen resultaten
+#   offset             de offset in de totale result set van waar te starten 
+#                      met het tonen van resultaten.
+#
+
+PREFIX oa:   <http://www.w3.org/ns/oa#>  
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX reva: <http://data.reva.nl/2013/07/reva#>
+
+SELECT DISTINCT ?woonPlaats ?openbareRuimte ?postCode ?huisNummer ?huisLetter ?huisNummerToevoeging ?aanduidingHuisNummer
+WHERE {
+  GRAPH ?stamUri {
+    ?stamUri rdf:type reva:RootAnnotatie .
+      
+    ?adresAnnotatie oa:hasTarget ?stamUri ;
+      rdf:type reva:AdresAnnotatie ;
+      oa:hasBody ?body .
+
+    ?body reva:woonplaats ?woonPlaats ;
+      reva:openbareruimte ?openbareRuimte ;
+      reva:huisnummer ?huisNummer .
+ 
+    OPTIONAL {
+      ?body reva:postcode ?postCode .
+    }
+    OPTIONAL {
+      ?body reva:huisletter ?huisLetter .
+    }
+    OPTIONAL {
+      ?body reva:huisnummerToevoeging ?huisNummerToevoeging .
+    }
+    OPTIONAL {
+      ?body reva:aanduidingBijHuisnummer ?aanduidingHuisNummer .
+    }
+  }
+}
+GROUP BY ?woonPlaats ?openbareRuimte ?postCode ?huisNummer ?huisLetter ?huisNummerToevoeging ?aanduidingHuisNummer 
+LIMIT ${limit} OFFSET ${offset}

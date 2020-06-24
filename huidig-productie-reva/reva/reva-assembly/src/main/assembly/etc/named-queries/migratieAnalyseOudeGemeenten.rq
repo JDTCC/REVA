@@ -1,0 +1,61 @@
+#!Freemarker 
+#
+# Deze query geeft een overzicht van het aantal registraties voor gemeenten die 
+# volgens de gemeente tabel (tabel33) zijn opgegaan andere/nieuwe gemeenten. Het
+# overzicht toont daarbij de oude gemeentecode (van de loketgemeente) die de 
+# registratie heeft aangemaakt en de nieuwe gemeentecode die volgens tabel33 van
+# toepassing is.
+#
+# Let op: ook de nieuwe gemeentecode kan in principe weer vervallen zijn. Controleer 
+#         dit alvorens te migreren.
+#
+# Required Parameters:
+#   None
+# 
+# Optional parameters:
+#   limit              het maximum aantal te tonen resultaten
+#   offset             de offset in de totale result set van waar te starten 
+#                      met het tonen van resultaten.
+#
+# REMARK:
+#   The parameters 'stamIndexName' can be ignored safely when executing this 
+#   query. They are used by the AStore framework:
+#     'stamIndexName'   Will be replaced with the actual index name used
+#                       by the framework. This name is configuration hence
+#                       the need to use a parameter.
+#
+
+PREFIX oa:   <http://www.w3.org/ns/oa#>  
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX reva: <http://data.reva.nl/2013/07/reva#>
+PREFIX rela: <http://www.digimelding.nl/2013/11/relaties#>
+PREFIX gem:  <http://www.bprbzk.nl/BRP/informatiebank/tabel33#>
+
+SELECT ?oudeGemeenteCode ?gemeente ?nieuweGemeenteCode (COUNT(?stamUri) as ?aantalRegistraties)
+WHERE { 
+  GRAPH ?stamUri {
+    ?annotatie oa:annotatedAt ?agent 
+      .
+
+    ?agent rdf:type prov:Agent ;
+      foaf:organisation ?oudeGemeenteCode .
+  } 
+
+  GRAPH <http://www.bprbzk.nl/BRP/informatiebank/tabel33> {
+    ?gemeenteObject rdf:type gem:Gemeente ;
+      gem:code ?oudeGemeenteCode ;
+      gem:naam ?gemeente ;
+	  gem:nieuweCode ?nieuweGemeenteCode .
+  }
+
+  GRAPH <${stamIndexName}> {
+    ?stamUri rdf:type <http://digimelding.nl/AStore/Stam>
+
+    BIND( SUBSTR( str(?stamUri), 10) AS ?${stamColumnName} )
+  }
+}
+GROUP BY ?oudeGemeenteCode ?gemeente ?nieuweGemeenteCode 
+LIMIT ${limit} OFFSET ${offset}

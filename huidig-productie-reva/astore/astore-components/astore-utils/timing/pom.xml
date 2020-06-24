@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>nl.overheid.stelsel.digimelding.astore</groupId>
+    <artifactId>astore-utils-reactor</artifactId>
+    <version>0.8.1.2</version>
+    <relativePath>..</relativePath>
+  </parent>
+
+  <artifactId>timing-reactor</artifactId>
+  <packaging>pom</packaging>
+  
+  <name>Timing :: Reactor</name>
+  <description>Timing Utilities to collect and handle timing measurements.</description>
+
+  <modules>
+    <module>timing-service</module>
+    <module>timing-commands</module>
+    <module>timing-collector-map</module>
+    <!-- module>timing-collector-log</module -->
+    <module>timing-cxf</module>
+  </modules>
+</project>
